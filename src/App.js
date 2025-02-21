@@ -1,11 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import logo from './logo.svg';
 import './App.css';
-import Sidebar from "./components/sidebar";
+import Login from './pages/Login/Login';
+import AdminView from './pages/admin/AdminView';
 
 function App() {
   return (
     <div className="app">
-      <Sidebar />
+      <Routes>
+        <Route path="/" element={<Login/>} />
+        <Route path="/admin" element={<AdminView/>} />
+      </Routes>
     </div>
   );
 }
