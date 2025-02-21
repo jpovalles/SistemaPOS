@@ -2,8 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
-import Login from './pages/Login/Login';
-import AdminView from './pages/admin/AdminView';
+import Sidebar from "./components/sidebar";
+import Log from "./pages/Login/Login"
+import ListaProductos from "./components/listaProductos";
+import ResumenCompra from "./components/resumenCompra";
+
 
 function App() {
   return (
@@ -12,6 +15,7 @@ function App() {
         <Route path="/" element={<Login/>} />
         <Route path="/admin" element={<AdminView/>} />
       </Routes>
+      <ResumenCompra />
     </div>
   );
 }
