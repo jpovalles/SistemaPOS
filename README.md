@@ -1,7 +1,7 @@
-<<<<<<< HEAD
+
 # SistemaPOS
 Este repositorio contiene el desarrollo de un sistema POS para la empresa XYZ, diseñado con React en el frontend. Su objetivo es registrar y gestionar ventas de manera eficiente, almacenando la información en una base de datos y generando reportes.
-=======
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
