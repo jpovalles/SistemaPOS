@@ -9,7 +9,7 @@ import ResumenCompra from "./components/resumenCompra";
 function App() {
   return (
     <div className="app">
-      <ResumenCompra />
+      <Sidebar />
     </div>
   );
 }
