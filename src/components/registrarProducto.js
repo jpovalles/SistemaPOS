@@ -18,7 +18,7 @@ return (
       type="text"
       value={nombre}
       onChange={(e) => setNombre(e.target.value)}
-      placeholder="Nombre del producto"
+      placeholder="Código del Producto"
     />
     <button onClick={handleAgregar}>Agregar</button>
   </div>

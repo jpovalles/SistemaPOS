@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Topbar from "../../components/topBar";
 import ListaProductos from "../../components/listaProductos";
 import ResumenCompra from "../../components/resumenCompra";
 import RegistrarProducto from "../../components/registrarProducto";
+import ProductContext from "../../context/ProductContext";
 import "./facturacion.css";
 
 const productosDisponibles = [
-  {codigo: "001", nombre: "Arroz", precio: 10.000},
-  {codigo: "002", nombre: "Salsa De tomate", precio: 6},
-  {codigo: "003", nombre: "Pollo", precio: 20},
-  {codigo: "004", nombre: "Carne", precio: 26},
-  {codigo: "005", nombre: "Frijoles", precio: 8},
+  { codigo: "001", nombre: "Arroz", precio: 10000 },
+  { codigo: "002", nombre: "Salsa De tomate", precio: 6000 },
+  { codigo: "003", nombre: "Pollo", precio: 20000 },
+  { codigo: "004", nombre: "Carne", precio: 26000 },
+  { codigo: "005", nombre: "Frijoles", precio: 8000 },
 ];
 
 const Facturacion = () => {
-  const [productos, setProductos] = useState([]);
+  const { productos, setProductos } = useContext(ProductContext);
   const [compraFinalizada, setCompraFinalizada] = useState(false);
   const [mensajeError, setMensajeError] = useState("");
   const [facturaCancelada, setFacturaCancelada] = useState(false);
 
-  // Finalizar Compra
   const finalizarCompra = () => {
     if (productos.length > 0) {
       setCompraFinalizada(true);
       setProductos([]);
+      localStorage.removeItem("productos"); // Limpiar localStorage
 
       setTimeout(() => {
         setCompraFinalizada(false);
@@ -31,44 +32,43 @@ const Facturacion = () => {
     }
   };
 
-  // Cancelar factura (eliminar todos los productos)
   const cancelarFactura = () => {
     if (productos.length > 0) {
       const confirmacion = window.confirm("¿Estás seguro de que deseas cancelar la factura?");
-    if (confirmacion) {
-      setFacturaCancelada(true);
-      setProductos([]);
+      if (confirmacion) {
+        setFacturaCancelada(true);
+        setProductos([]);
+        localStorage.removeItem("productos"); // Limpiar localStorage
 
-      setTimeout(() => {
-        setFacturaCancelada(false);
-      }, 3000);
-    }
+        setTimeout(() => {
+          setFacturaCancelada(false);
+        }, 3000);
+      }
     }
   };
 
-  // Agregar producto a la lista
   const agregarProducto = (codigo) => {
-    const productoEncontrado = productosDisponibles.find(p => p.codigo === codigo);
+    const productoEncontrado = productosDisponibles.find((p) => p.codigo === codigo);
     if (productoEncontrado) {
-      setProductos([...productos, { nombre: productoEncontrado.nombre, 
-                                    precio: productoEncontrado.precio,
-                                    cantidad: 1 }]);
+      setProductos([...productos, { 
+        nombre: productoEncontrado.nombre, 
+        precio: productoEncontrado.precio, 
+        cantidad: 1
+      }]);
       setMensajeError("");
     } else {
       setMensajeError("No hay productos disponibles con ese código");
-      setTimeout(() => setMensajeError(""), 3000); 
+      setTimeout(() => setMensajeError(""), 3000);
     }
-};
+  };
 
-  // Eliminar un producto de la lista
   const eliminarProducto = (index) => {
     setProductos(productos.filter((_, i) => i !== index));
   };
 
-  // Modificar cantidad de un producto
   const modificarCantidad = (index, cambio) => {
     const nuevaLista = productos.map((producto, i) =>
-        i === index ? { ...producto, cantidad: Math.max(1, producto.cantidad + cambio) } : producto
+      i === index ? { ...producto, cantidad: Math.max(1, producto.cantidad + cambio) } : producto
     );
     setProductos(nuevaLista);
   };
@@ -78,31 +78,30 @@ const Facturacion = () => {
       <Topbar paginaActual="cajas" />
 
       <div className="content">
-          <div className="product-section">
-            {mensajeError && <div className="mensaje-error">{mensajeError}</div>}
-            <ListaProductos
-                productos={productos}
-                eliminarProducto={eliminarProducto}
-                modificarCantidad={modificarCantidad}
-            />
-              {/* Mostrar mensaje de compra finalizada */}
-              {compraFinalizada && (
-            <div className="mensaje-finalizacion">
-                <h2>¡Compra finalizada con éxito!</h2>
-            </div>
-            )}
+        <div className="product-section">
+          {mensajeError && <div className="mensaje-error">{mensajeError}</div>}
+          <ListaProductos
+            productos={productos}
+            eliminarProducto={eliminarProducto}
+            modificarCantidad={modificarCantidad}
+          />
 
-              {/* Mostrar mensaje de factura cancelada */}
-              {facturaCancelada && (
+          {compraFinalizada && (
+            <div className="mensaje-finalizacion">
+              <h2>¡Compra finalizada con éxito!</h2>
+            </div>
+          )}
+
+          {facturaCancelada && (
             <div className="mensaje-cancelacionFactura">
               <h2>¡La factura fue cancelada con éxito!</h2>
             </div>
-            )}
-          </div>
+          )}
+        </div>
 
-          <div className="summary-section">
-            <ResumenCompra productos={productos} />
-          </div>
+        <div className="summary-section">
+          <ResumenCompra productos={productos} />
+        </div>
       </div>
 
       <div className="registro-section">
@@ -110,12 +109,12 @@ const Facturacion = () => {
       </div>
 
       <div className="button-container">
-          <button className="cancel-button" onClick={cancelarFactura}>
-            Cancelar factura
-          </button>
-          <button className="finish-button" onClick={finalizarCompra}>
-            Finalizar
-          </button>
+        <button className="cancel-button" onClick={cancelarFactura}>
+          Cancelar factura
+        </button>
+        <button className="finish-button" onClick={finalizarCompra}>
+          Finalizar
+        </button>
       </div>
     </div>
   );
