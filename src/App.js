@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
 import Topbar from "./components/topBar";
 import Log from "./pages/Login/Login";
@@ -8,21 +8,25 @@ import Login from "./pages/Login/Login"
 import AdminView from "./pages/admin/AdminView"
 import GestUsers from './pages/admin/gestUsuarios/GestUsers';
 import Registrar from "./pages/Reg_clientes/Registrar";
-import { Route, Routes } from 'react-router-dom';
-
+import Facturacion from './pages/facturacion/facturacion'
+import Inventario from './pages/inventario/inventario'
 
 function App() {
   return (
     <div className="app">
-      {<Routes>
+        
+      <Topbar />
+      <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/admin" element={<AdminView/>} />
         <Route path="/admin/gestUsers" element={<GestUsers/>} />
-        <Route path="/Registro" element={<Registrar/>}/>
-      </Routes>}
-      <Topbar />
+        <Route path="/admin/inventario" element={<Inventario/>} />
+        <Route path="/vendedor/facturacion" element={<Facturacion/>} />
+        <Route path="/vendedor/Registro" element={<Registrar/>}/> 
+      </Routes>
     </div>
-  )
+  );
 }
 
 export default App;
+

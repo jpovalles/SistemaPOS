@@ -40,11 +40,15 @@ function Login(){
     }
 
     return(
-        <div className="login">
-        <h1>
-            Bienvenido al Sistema <span>POS</span>
-        </h1>
-        <h2>Ingresa con tus credenciales para continuar</h2>
+    <div className="login">
+        <div className="title_container">
+            <h1 className="bienvenidos">
+                Bienvenido al Sistema <span>POS</span>
+            </h1>
+            <h2 className="ingresar-cred">
+                Ingresa con tus credenciales para continuar
+            </h2>
+        </div>
         <div className="form_container">
             <form onSubmit={handleLogin}>
                 <p>Usuario:</p>
