@@ -4,7 +4,6 @@ import "./sidebar.css";
 const Sidebar = () => {
     return (
       <div className="container">
-        {/* Barra superior */}
         <div className="topbar">
           <h2>
             <span className="sistema">SISTEMA</span>{" "}
@@ -13,12 +12,10 @@ const Sidebar = () => {
           <span className="vendedor">Vendedor</span>
         </div>
   
-        {/* Barra lateral */}
         <div className="sidebar">
           <nav>
             <ul>
               <li>
-                {/*<span className="icon">📂</span>*/}
                 <img src="/fotoUsuario.png" alt="Logo del sistema" className="logo" />
                 <span className="text">Registro de clientes</span>
               </li>

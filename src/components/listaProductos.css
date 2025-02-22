@@ -10,7 +10,7 @@
     font-weight: bold;
     text-align: left;
     margin-bottom: 15px;
-    display: block; /* Hace que el título sea un solo bloque */
+    display: block;
   }
   
   ul {
