@@ -1,9 +1,8 @@
-.login{
+.login {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 100%;
+    justify-content: center;
     height: 100vh;
 }
 
@@ -21,12 +20,20 @@
     margin: 5rem 0rem;
     border: #38b6ff 2px solid;
     background-color: aliceblue;
-    padding: 2rem;
+    padding: 20px;
     border-radius: 30px;
     width: 40%;
-    height: 35%;
-    gap: 1rem;
+    height: 45%;
     box-shadow: 0px 0px 10px 0px #d9d9d9;
+    text-align: center;
+    margin-top: 1px;
+}
+
+.title_container {
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 10px;
 }
 
 .login form{
@@ -50,7 +57,6 @@
     border: #d9d9d9 1px solid;
 }
 
-
 .login form button{
     width: 40%;
     padding: 1rem;
@@ -61,7 +67,7 @@
     font-size: 1.5rem;
     border: #38b6ff 1px solid;
     justify-self: end;
-    margin-top: auto;
+    margin-top: 40px;
     transition: background-color 0.3s;
 }
 

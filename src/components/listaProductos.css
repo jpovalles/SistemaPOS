@@ -1,81 +1,87 @@
 .product-list {
-    width: 100%;
-    max-width: 700px;
-    margin: 20px auto;
-    text-align: center;
-  }
-  
-  .title {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: left;
-    margin-bottom: 15px;
-    display: block;
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .product-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #c4c4c4;
-    border-radius: 20px;
-    padding: 10px;
-    margin: 8px 0;
-    width: 100%;
-  }
-  
-  .product-name {
-    flex-grow: 4; 
-    text-align: left;
-    padding-left: 15px;
-    font-size: 1.2rem;
-    color: black
-  }
-  
-  .quantity-controls {
-    display: flex;
-    align-items: center;
-    background: white;
-    border-radius: 15px;
-    padding: 5px;
-    color: black
-  }
-  
-  .btn-control {
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 5px 10px;
-  }
-  
-  .quantity {
-    font-size: 16px;
-    margin: 0 8px;
-    color: black
-  }
-  
-  .btn-delete {
-    background: none;
-    border: none;
-    color: red;
-    font-size: 18px;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-  
-  .product-item:hover {
-    background-color: #b0b0b0;
-  }
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto;
+  text-align: center;
+}
 
-  .btn-delete:hover {
-    color: darkred;
-  }
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 15px;
+  display: block;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #c4c4c4;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 8px 0;
+  width: 100%;
+}
+
+.product-name {
+  flex-grow: 4; 
+  text-align: left;
+  padding-left: 15px;
+  font-size: 1.2rem;
+  color: black
+}
+
+.precio-producto {
+  flex: 0.5;
+  color: #2c3e50;
+  text-align: left;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 15px;
+  padding: 5px;
+  color: black
+}
+
+.btn-control {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.quantity {
+  font-size: 16px;
+  margin: 0 8px;
+  color: black
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.product-item:hover {
+  background-color: #b0b0b0;
+}
+
+.btn-delete:hover {
+  color: darkred;
+}
   
   
   

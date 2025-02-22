@@ -1,21 +1,20 @@
 import "./listaProductos.css";
 
-const ProductList = () => {
-  const productos = Array(5).fill("Producto");
-
+const ListaProductos = ({ productos, eliminarProducto, modificarCantidad }) => {
   return (
     <div className="product-list">
       <h1 className="title">Lista de Productos</h1>
       <ul>
         {productos.map((producto, index) => (
           <li key={index} className="product-item">
-            <span className="product-name">{producto}</span>
+            <span className="product-name">{producto.nombre}</span>
+            <span className="precio-producto">${producto.precio}</span>
             <div className="quantity-controls">
-              <button className="btn-control"> - </button>
-              <span className="quantity">1</span>
-              <button className="btn-control"> + </button>
+              <button className="btn-control" onClick={() => modificarCantidad(index, -1)}> - </button>
+              <span className="quantity">{producto.cantidad}</span>
+              <button className="btn-control" onClick={() => modificarCantidad(index, 1)}> + </button>
             </div>
-            <button className="btn-delete">❌</button>
+            <button className="btn-delete" onClick={() => eliminarProducto(index)}>❌</button>
           </li>
         ))}
       </ul>
@@ -23,7 +22,7 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default ListaProductos;
 
 
 
