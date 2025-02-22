@@ -1,0 +1,68 @@
+/*
+.gest-users{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 5em auto;
+}
+
+.gest-users .tableUsers{
+    grid-column: 1/-1;
+    padding: 1rem;
+}
+
+.gest-users .addUser svg{
+    height: 5em;
+}
+*/
+
+.gest-users{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.gest-users .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+}
+
+.gest-users .header svg{
+    height: 5em;
+}
+
+.gest-users h1{
+    font-size: 3rem;
+    margin: 0;
+}
+
+.gest-users .tableUsers{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.gest-users .tableUsers table{
+    background-color: #f0f0f0;
+    border-radius: 30px;
+    box-shadow: 0px 0px 10px 0px #d9d9d9;
+    border-spacing: 1rem 2rem;
+}
+
+
+.gest-users th, .gest-users td{
+    font-size: 1.5rem;
+    padding: 1rem 5rem;
+}
+
+.gest-users th{
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.gest-users .iconsRow{
+    display: flex;
+    justify-content: space-between;
+}

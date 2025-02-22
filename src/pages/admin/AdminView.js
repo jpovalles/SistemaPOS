@@ -1,13 +1,14 @@
 import React from 'react';
-import Sidebar from '../../components/sidebar';
+import './Admin.css';
+import Sidebar from '../../components/topBar';
 
-const AdminView = () => {
+function AdminView(){
+    const username = localStorage.getItem("username") || "Invitado";
     return (
         <div className="admin-view">
-            <Sidebar/>
             <div className="content">
-                <h1>Administrador</h1>
-                <p>¡Bienvenido al panel de administrador!</p>
+                <h1>Bienvenido, <span>{username}</span></h1>
+                <h2>Bienvenido al panel de <span>administrador</span>!</h2>
             </div>
         </div>
     );
