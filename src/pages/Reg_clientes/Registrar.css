@@ -1,0 +1,58 @@
+.titulo{
+    background-color: #2196F3;
+    margin: 0 auto;
+    width: 40%;
+    text-align: center;
+    border-radius: 10px;
+
+}
+
+.cont_titulo{
+    padding-top: 110px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.form{
+    margin: 5px;
+    width: 60%;
+    border-radius: 10px;
+    text-align: center;
+    height: 20px;
+}
+
+.cont_form{
+    text-align: center;
+    height: 100%;
+}
+
+.nombres{
+    margin-top: 20px;
+    margin-bottom: 5px;
+    height: 20px;
+}
+
+.cont_botones{
+    margin-top: 20px;
+}
+
+.boton{
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    height: 20px;
+    font-size: 30px;
+    height: auto;
+}
+
+.cancelar{
+    background-color: red;
+    border-radius: 10px;
+}
+
+.enviar{
+    margin: 10px;
+    background-color: #2196F3;
+    
+}
