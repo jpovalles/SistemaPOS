@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function Login(){
@@ -13,7 +14,7 @@ function Login(){
     const [loginStatus, setLoginStatus] = useState("");
     const [statusColor, setStatusColor] = useState("");
     
-
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -23,6 +24,10 @@ function Login(){
             setStatusColor("#58cf39");
             setLoginStatus("Login Exitoso");
             setTries(3);
+            localStorage.setItem("username", user);
+            setTimeout(() => {
+                navigate("/admin");
+            }, 1000);
         }else{
             setStatusColor("#ff5252");
             setTries(tries - 1);
@@ -30,6 +35,8 @@ function Login(){
             document.querySelector('.user').value = "";
             document.querySelector('.password').value = "";
         }
+
+        
     }
 
     return(
@@ -38,7 +45,7 @@ function Login(){
             Bienvenido al Sistema <span>POS</span>
         </h1>
         <h2>Ingresa con tus credenciales para continuar</h2>
-        <div className="form-container">
+        <div className="form_container">
             <form onSubmit={handleLogin}>
                 <p>Usuario:</p>
                 <input className="user" type="text" required placeholder="Ingrese su usuario" />
@@ -48,7 +55,7 @@ function Login(){
 
                 <button>Entrar</button>
             </form>
-            {loginStatus && <div className="login-status" style={{ backgroundColor: statusColor }}>{loginStatus}</div>}
+            {loginStatus && <div className="login_status" style={{ backgroundColor: statusColor }}>{loginStatus}</div>}
         </div>
     </div>
     )

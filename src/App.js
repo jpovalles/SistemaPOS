@@ -2,10 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
-import Sidebar from "./components/sidebar";
-import Log from "./pages/Login/Login"
-import ListaProductos from "./components/listaProductos";
-import ResumenCompra from "./components/resumenCompra";
+import Login from "./pages/Login/Login"
+import AdminView from "./pages/admin/AdminView"
+import GestUsers from './pages/admin/gestUsuarios/GestUsers';
 
 
 function App() {
@@ -14,8 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/admin" element={<AdminView/>} />
+        <Route path="/admin/gestUsers" element={<GestUsers/>} />
       </Routes>
-      <ResumenCompra />
     </div>
   );
 }
