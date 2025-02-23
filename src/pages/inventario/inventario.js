@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Topbar from "../../components/topBar";
+import Topbar from "../../components/TopBar";
 import "./inventario.css";
 
 const productosDisponibles = [

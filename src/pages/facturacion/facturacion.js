@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import Topbar from "../../components/topBar";
-import ListaProductos from "../../components/listaProductos";
-import ResumenCompra from "../../components/resumenCompra";
-import RegistrarProducto from "../../components/registrarProducto";
+import Topbar from "../../components/TopBar";
+import ListaProductos from "../../components/ListaProductos";
+import ResumenCompra from "../../components/RresumenCompra";
+import RegistrarProducto from "../../components/RregistrarProducto";
 import ProductContext from "../../context/ProductContext";
-import "./facturacion.css";
+import "./Facturacion.css";
 
 const productosDisponibles = [
   { codigo: "001", nombre: "Arroz", precio: 10000 },

@@ -1,4 +1,4 @@
-import "./listaProductos.css";
+import "./ListaProductos.css";
 
 const ListaProductos = ({ productos, eliminarProducto, modificarCantidad }) => {
   return (
