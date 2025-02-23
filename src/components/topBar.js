@@ -36,7 +36,6 @@ const Topbar = ({ paginaActual }) => {
                     </li>
                 </ul>
             </nav>
-
             <span className="vendedor">Vendedor</span>
         </div>
     );
