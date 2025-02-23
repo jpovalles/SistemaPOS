@@ -70,5 +70,13 @@
     color: #ff5252;
 }
 
+.gest-users .addUser{
+    color: #38b6ff;
+    cursor: pointer;
+
+    transition: color 0.3s;
+}
+
 .gest-users .addUser:hover{
+    color: #0077b6;
 }
