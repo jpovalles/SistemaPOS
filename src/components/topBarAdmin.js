@@ -4,9 +4,13 @@ import "./TopBarAdmin.css";
 
 const TopbarAdmin = ({ paginaActualAdmin }) => {
     const navigate = useNavigate();
+    const handleClick = () => {
+        navigate("/admin");
+    };
     return (
         <div className="topbar">
-            <h2 className="title" onClick={() => navigate("/admin")}>
+            <h2 className="title" onClick={handleClick} style={{ cursor: "pointer" }}>
+
                 <span className="sistema">SISTEMA</span>{" "}
                 <span className="pos">POS</span>
             </h2>
@@ -19,7 +23,7 @@ const TopbarAdmin = ({ paginaActualAdmin }) => {
                         <span className="text">Gestión de Usuarios</span>
                     </li>
                     <li className={paginaActualAdmin === "inventarioAdmin" ? "active" : ""}
-                        // onClick={() => navigate("/admin/inventario")}
+                        onClick={() => navigate("/admin/inventario")}
                     >
                         <span className="icon">📦</span>
                         <span className="text">Inventario</span>
