@@ -10,6 +10,7 @@ const TopbarAdmin = ({ paginaActualAdmin }) => {
     return (
         <div className="topbar">
             <h2 className="title" onClick={handleClick} style={{ cursor: "pointer" }}>
+
                 <span className="sistema">SISTEMA</span>{" "}
                 <span className="pos">POS</span>
             </h2>

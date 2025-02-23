@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import Topbar from "../../components/TopBar";
 import ListaProductos from "../../components/ListaProductos";
-import ResumenCompra from "../../components/ResumenCompra";
-import RegistrarProducto from "../../components/RegistrarProducto";
+import ResumenCompra from "../../components/RresumenCompra";
+import RegistrarProducto from "../../components/RregistrarProducto";
 import ProductContext from "../../context/ProductContext";
 import "./Facturacion.css";
 
