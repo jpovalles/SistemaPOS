@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Topbar from "../../components/TopBar";
-import "./Inventario.css";
+import Topbar from "../../components/topBar";
+import "./inventario.css";
 
 const productosDisponibles = [
   { id: "001", nombre: "Arroz", precio: 10000, cantidad: 20 },

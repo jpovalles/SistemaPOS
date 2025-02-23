@@ -1,6 +1,6 @@
 import "./Registrar.css";
 import React, { useState } from "react";
-import Topbar from "../../components/TopBar";
+import Topbar from "../../components/topBar";
 
 function Registrar() {
     const [formData, setFormData] = useState({

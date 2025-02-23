@@ -4,8 +4,8 @@ import Login from "./pages/Login/Login"
 import AdminView from "./pages/admin/AdminView"
 import GestUsers from './pages/admin/gestUsuarios/GestUsers';
 import Registrar from "./pages/Reg_clientes/Registrar";
-import Facturacion from './pages/facturacion/Facturacion'
-import InventarioVendedor from "./pages/inventario/Inventario";
+import Facturacion from './pages/facturacion/facturacion'
+import InventarioVendedor from "./pages/inventario/inventario";
 import InventarioAdmin from "./pages/inventario/InventarioAdmin";
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./RegistrarProducto.css";
+import "./registrarProducto.css";
 
 const RegistrarProductos = ({ agregarProducto }) => {
 const [nombre, setNombre] = useState("");
