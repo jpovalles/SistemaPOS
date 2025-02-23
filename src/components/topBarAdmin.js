@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./topBar.css";
+import "./TopBarAdmin.css";
 
 const Topbar = ({ paginaActualAdmin }) => {
     const navigate = useNavigate();

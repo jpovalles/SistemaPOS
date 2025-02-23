@@ -1,14 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
-import Topbar from "./components/topBarAdmin";
-import Log from "./pages/Login/Login";
-import ListaProductos from "./components/listaProductos";
-import ResumenCompra from "./components/resumenCompra";
 import Login from "./pages/Login/Login"
 import AdminView from "./pages/admin/AdminView"
 import GestUsers from './pages/admin/gestUsuarios/GestUsers';
 import Registrar from "./pages/Reg_clientes/Registrar";
-import Facturacion from './pages/facturacion/facturacion'
+import Facturacion from './pages/facturacion/Facturacion'
 import Inventario from './pages/inventario/inventario'
 
 function App() {

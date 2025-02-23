@@ -1,6 +1,6 @@
 import React from 'react';
 import './GestUsers.css';
-import Topbar from "../../../components/topBarAdmin";
+import Topbar from "../../../components/TopBarAdmin";
 
 
 function GestUsers(){
