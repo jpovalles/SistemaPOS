@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./topBar.css";
-import { Link } from "react-router-dom";
 
 const Topbar = ({ paginaActual }) => {
     const navigate = useNavigate();
@@ -14,7 +13,8 @@ const Topbar = ({ paginaActual }) => {
             <nav className="menu">
                 <ul>
                     <li className={paginaActual === "clientes" ? "active" : ""} 
-                        onClick={() => navigate("/vendedor/Registro")}>
+                        onClick={() => navigate("/vendedor/Registro")}
+                    >
                         <img src="/fotoUsuario.png" alt="Logo del sistema" className="logo" />
                         <span className="text">Clientes</span>
                     </li>

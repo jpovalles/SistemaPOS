@@ -4,7 +4,6 @@
     width: 40%;
     text-align: center;
     border-radius: 10px;
-
 }
 
 .cont_titulo{
@@ -15,11 +14,12 @@
 }
 
 .form{
-    margin: 5px;
     width: 50%;
-    border-radius: 10px;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
     text-align: center;
-    height: 20px;
 }
 
 .cont_form{
@@ -35,6 +35,9 @@
 
 .cont_botones{
     margin-top: 20px;
+    display: flex; 
+    justify-content: center; 
+    gap: 3rem;
 }
 
 .boton{
@@ -42,17 +45,42 @@
     border: none;
     border-radius: 10px;
     height: 20px;
-    font-size: 30px;
+    font-size: px;
     height: auto;
+    color: white;
 }
 
 .cancelar{
-    background-color: red;
-    border-radius: 10px;
+    background-color: #d41717;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .enviar{
-    margin: 10px;
     background-color: #2196F3;
-    
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.mensaje-exito{
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #c3e6cb;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    width: 30%;
+    margin-left: 450px;
 }
