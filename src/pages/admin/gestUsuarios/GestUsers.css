@@ -29,17 +29,22 @@
     padding: 2rem;
 }
 
-.gest-users .tableUsers table{
-    background-color: #f0f0f0;
+.gest-users table{
+    border: #38b6ff 2px solid;
+    background-color: aliceblue;
     border-radius: 30px;
     box-shadow: 0px 0px 10px 0px #d9d9d9;
     border-spacing: 1rem 2rem;
+    width: 100%;
+
+    
 }
 
 
 .gest-users th, .gest-users td{
     font-size: 1.5rem;
     padding: 1rem 5rem;
+    text-align: start;
 }
 
 .gest-users th{
@@ -48,5 +53,22 @@
 
 .gest-users .iconsRow{
     display: flex;
-    justify-content: space-between;
+    gap: 2rem;
+}
+
+.iconsRow .editIcon, .iconsRow .deleteIcon{
+    cursor: pointer;
+    height: 2em;
+    transition: color 0.3s;
+}
+
+.iconsRow .editIcon:hover{
+    color: #38b6ff;
+}
+
+.iconsRow .deleteIcon:hover{
+    color: #ff5252;
+}
+
+.gest-users .addUser:hover{
 }
