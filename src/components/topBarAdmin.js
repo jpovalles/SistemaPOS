@@ -2,11 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./TopBarAdmin.css";
 
-const Topbar = ({ paginaActualAdmin }) => {
+const TopbarAdmin = ({ paginaActualAdmin }) => {
     const navigate = useNavigate();
+    const handleClick = () => {
+        navigate("/admin");
+    };
     return (
         <div className="topbar">
-            <h2 className="title">
+            <h2 className="title" onClick={handleClick} style={{ cursor: "pointer" }}>
                 <span className="sistema">SISTEMA</span>{" "}
                 <span className="pos">POS</span>
             </h2>
@@ -19,7 +22,7 @@ const Topbar = ({ paginaActualAdmin }) => {
                         <span className="text">Gestión de Usuarios</span>
                     </li>
                     <li className={paginaActualAdmin === "inventarioAdmin" ? "active" : ""}
-                        // onClick={() => navigate("/admin/inventario")}
+                        onClick={() => navigate("/admin/inventario")}
                     >
                         <span className="icon">📦</span>
                         <span className="text">Inventario</span>
@@ -42,4 +45,4 @@ const Topbar = ({ paginaActualAdmin }) => {
     );
 };
 
-export default Topbar;
+export default TopbarAdmin;

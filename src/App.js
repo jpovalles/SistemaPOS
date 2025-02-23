@@ -5,7 +5,9 @@ import AdminView from "./pages/admin/AdminView"
 import GestUsers from './pages/admin/gestUsuarios/GestUsers';
 import Registrar from "./pages/Reg_clientes/Registrar";
 import Facturacion from './pages/facturacion/Facturacion'
-import Inventario from './pages/inventario/inventario'
+import InventarioVendedor from "./pages/inventario/Inventario";
+import InventarioAdmin from "./pages/inventario/InventarioAdmin";
+
 
 function App() {
   return (
@@ -14,9 +16,10 @@ function App() {
         <Route path="/" element={<Login/>} />
         <Route path="/admin" element={<AdminView/>} />
         <Route path="/admin/gestUsers" element={<GestUsers/>} />
-        <Route path="/admin/inventario" element={<Inventario/>} />
+        <Route path="/vendedor/inventario" element={<InventarioVendedor/>} />
+        <Route path="/admin/inventario" element={<InventarioAdmin/>} />
         <Route path="/vendedor/facturacion" element={<Facturacion/>} />
-        <Route path="/vendedor/Registro" element={<Registrar/>}/> 
+        <Route path="/vendedor/RegistroClientes" element={<Registrar/>}/> 
       </Routes>
     </div>
   );

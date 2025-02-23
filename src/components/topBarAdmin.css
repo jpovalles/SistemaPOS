@@ -19,10 +19,12 @@
   
   .sistema {
     color: black;
+    font-weight: bold;
   }
   
   .pos {
     color: white;
+    font-weight: bold;
   }
   
   .menu {

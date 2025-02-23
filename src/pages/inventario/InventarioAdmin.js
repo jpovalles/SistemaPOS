@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Topbar from "../../components/TopBar";
+import TopbarAdmin from "../../components/TopBarAdmin";
 import "./Inventario.css";
 
 const productosDisponibles = [
@@ -10,7 +10,7 @@ const productosDisponibles = [
   { id: "005", nombre: "Frijoles", precio: 8000, cantidad: 25 },
 ];
 
-const Inventario = () => {
+const InventarioAdmin = () => {
   const [busqueda, setBusqueda] = useState("");
   const [resultados, setResultados] = useState([]);
 
@@ -25,7 +25,7 @@ const Inventario = () => {
 
   return (
     <div className="inventario-container">
-        <Topbar paginaActual="inventario"/>
+        <TopbarAdmin paginaActualAdmin="inventarioAdmin"/>
         <h1 className="tituloInventario">Inventario de Productos</h1>
         <h2 className="subtitulo">Buscar Producto</h2>
         <div className="busqueda-container">
@@ -63,4 +63,4 @@ const Inventario = () => {
   );
 };
 
-export default Inventario;
+export default InventarioAdmin;

@@ -13,13 +13,13 @@ const Topbar = ({ paginaActual }) => {
             <nav className="menu">
                 <ul>
                     <li className={paginaActual === "clientes" ? "active" : ""} 
-                        onClick={() => navigate("/vendedor/Registro")}
+                        onClick={() => navigate("/vendedor/RegistroClientes")}
                     >
                         <img src="/fotoUsuario.png" alt="Logo del sistema" className="logo" />
                         <span className="text">Clientes</span>
                     </li>
                     <li className={paginaActual === "inventario" ? "active" : ""}
-                        onClick={() => navigate("/admin/inventario")}
+                        onClick={() => navigate("/vendedor/inventario")}
                     >
                         <span className="icon">📦</span>
                         <span className="text">Inventario</span>
