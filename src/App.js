@@ -14,8 +14,6 @@ import Inventario from './pages/inventario/inventario'
 function App() {
   return (
     <div className="app">
-        
-      <Topbar />
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/admin" element={<AdminView/>} />

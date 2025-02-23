@@ -16,7 +16,7 @@ function Registrar(){
 
     const envio = () => {
         setClientes([...clientes, formData]);
-        setFormData({nombre:"", documento:"", xorreo:"", telefono:""})
+        setFormData({nombre:"", documento:"", correo:"", telefono:""})
     }
     
     return(
