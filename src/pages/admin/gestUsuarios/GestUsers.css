@@ -80,3 +80,13 @@
 .gest-users .addUser:hover{
     color: #0077b6;
 }
+
+.gest-users .tableContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gest-users .tableContent h1{
+    color: #38b6ff;
+}

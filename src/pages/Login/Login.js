@@ -4,10 +4,21 @@ import './Login.css';
 
 function Login(){
 
-    const credentials = {
-        "user1": "password1",
-        "user2": "password2",
-        "user3": "password3",
+    
+    const data = {
+        jpoc: { usuario: "jpoc", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
+        jpoc2: { usuario: "jpoc2", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
+        jpoc3:{ usuario: "jpoc3", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
+        jpoc4: { usuario: "jpoc4", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" }
+    }
+
+    const authenticateUser = (user, password) => {
+        if(data[user]){
+            if(data[user].clave === password){
+                return true;
+            }
+        }
+        return false;
     }
 
     
@@ -22,7 +33,7 @@ function Login(){
         e.preventDefault();
         const user = document.querySelector('.user').value;
         const password = document.querySelector('.password').value;
-        if(credentials[user] === password){
+        if(authenticateUser(user, password)){
             setStatusColor("#58cf39");
             setLoginStatus("Login Exitoso");
             setTries(3);
