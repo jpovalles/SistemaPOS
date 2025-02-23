@@ -1,6 +1,6 @@
 import React from 'react';
 import './Admin.css';
-import TopBarAdmin from '../../components/topBarAdmin';
+import TopBarAdmin from '../../components/TopBarAdmin';
 
 function AdminView(){
     const username = localStorage.getItem("username") || "Invitado";
