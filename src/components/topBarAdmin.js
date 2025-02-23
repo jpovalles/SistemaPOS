@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./topBar.css";
 
-const Topbar = ({ paginaActual }) => {
+const Topbar = ({ paginaActualAdmin }) => {
     const navigate = useNavigate();
     return (
         <div className="topbar">
@@ -12,37 +12,34 @@ const Topbar = ({ paginaActual }) => {
             </h2>
             <nav className="menu">
                 <ul>
-                    <li className={paginaActual === "clientes" ? "active" : ""} 
-                        onClick={() => navigate("/vendedor/Registro")}
+                    <li className={paginaActualAdmin === "usuariosAdmin" ? "active" : ""} 
+                        onClick={() => navigate("/admin/gestUsers")}
                     >
                         <img src="/fotoUsuario.png" alt="Logo del sistema" className="logo" />
-                        <span className="text">Clientes</span>
+                        <span className="text">Gestión de Usuarios</span>
                     </li>
-                    <li className={paginaActual === "inventario" ? "active" : ""}
-                        onClick={() => navigate("/admin/inventario")}
+                    <li className={paginaActualAdmin === "inventarioAdmin" ? "active" : ""}
+                        // onClick={() => navigate("/admin/inventario")}
                     >
                         <span className="icon">📦</span>
                         <span className="text">Inventario</span>
                     </li>
-                    <li className={paginaActual === "cajas" ? "active" : ""}
-                        onClick={() => navigate("/vendedor/facturacion")}
+                    <li className={paginaActualAdmin === "reporte" ? "active" : ""}
+                        // onClick={() => navigate("/vendedor/facturacion")}
                     >
-                        <span className="icon" >💰 </span>
-                        <span className="text">Cajas</span>
+                        <span className="icon" >📋 </span>
+                        <span className="text">Reportes</span>
                     </li>
-                    <li className={paginaActual === "usuario" ? "active" : ""}>
+                    <li className={paginaActualAdmin === "usuarioAdmin" ? "active" : ""}>
                         <span className="icon">👤</span>
                         <span className="text">Usuario</span>
                     </li>
                 </ul>
             </nav>
-            <span className="vendedor">Vendedor</span>
+
+            <span className="vendedor">Administrador</span>
         </div>
     );
 };
 
 export default Topbar;
-
-
-
-

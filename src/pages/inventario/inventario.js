@@ -26,7 +26,7 @@ const Inventario = () => {
   return (
     <div className="inventario-container">
         <Topbar paginaActual="inventario"/>
-        <h1 className="titulo">Inventario de Productos</h1>
+        <h1 className="tituloInventario">Inventario de Productos</h1>
         <h2 className="subtitulo">Buscar Producto</h2>
         <div className="busqueda-container">
             <input
