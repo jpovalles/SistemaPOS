@@ -13,7 +13,7 @@
     margin: 0;
 }
 
-.admin-view span{
+.admin-view .username, .admin-view .role{
     color: #38b6ff;
 }
 

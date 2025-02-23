@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./topBar.css";
+import "./topBarAdmin.css";
 
-const Topbar = ({ paginaActualAdmin }) => {
+const TopbarAdmin = ({ paginaActualAdmin }) => {
     const navigate = useNavigate();
     return (
         <div className="topbar">
-            <h2 className="title">
+            <h2 className="title" onClick={() => navigate("/admin")}>
                 <span className="sistema">SISTEMA</span>{" "}
                 <span className="pos">POS</span>
             </h2>
@@ -42,4 +42,4 @@ const Topbar = ({ paginaActualAdmin }) => {
     );
 };
 
-export default Topbar;
+export default TopbarAdmin;

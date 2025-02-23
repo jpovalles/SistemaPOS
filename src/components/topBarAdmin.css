@@ -13,10 +13,6 @@
     z-index: 10;
   }
   
-  .title {
-    margin-left: 20px;
-  }
-  
   .sistema {
     color: black;
   }
@@ -47,6 +43,7 @@
     cursor: pointer;
     padding: 10px 15px;
     color: white;
+    transition: background-color 0.2s;
   }
   
   .menu li:hover {
@@ -80,4 +77,12 @@
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
     border-radius: 5px;
+  }
+
+  .topbar .title{
+    margin-left: 20px;
+  }
+
+  .topbar .title:hover{
+    cursor: pointer;
   }

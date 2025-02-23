@@ -1,6 +1,6 @@
 import React from 'react';
 import './GestUsers.css';
-import Topbar from "../../../components/topBarAdmin";
+import TopBarAdmin from '../../../components/TopBarAdmin';
 
 
 function GestUsers(){
@@ -10,7 +10,7 @@ function GestUsers(){
         { id: 1234, nombre: "Juan Ovalles", usuario: "jpoc", clave: "123456789", rol: "admin" },];
     return(
         <div className="gest-users">
-            <Topbar paginaActualAdmin="usuariosAdmin"/>
+            <TopBarAdmin paginaActualAdmin="usuariosAdmin"/>
             <div className='header'>
                 <div className='title'>
                     <h1>Gestión de Usuarios</h1>
