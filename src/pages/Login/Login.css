@@ -86,3 +86,20 @@
     color: white;
 }
 
+.block_status{
+    background-color: #ff5252;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 20px;
+    padding: 1rem;
+    margin: red 2px solid;
+    width: 40%;
+}
+
+.block_status h1{
+    text-align: center;
+}
+

@@ -30,6 +30,7 @@ function Login(){
     const [tries, setTries] = useState(3);
     const [loginStatus, setLoginStatus] = useState("");
     const [statusColor, setStatusColor] = useState("");
+    const [blockStatus, setBlockStatus] = useState(false);
     
     const navigate = useNavigate();
 
@@ -52,6 +53,10 @@ function Login(){
             setLoginStatus("Credenciales no válidas. Intentos restantes: "+ (tries-1));
             document.querySelector('.user').value = "";
             document.querySelector('.password').value = "";
+            if(tries === 1){
+                setBlockStatus(true);
+                setLoginStatus("Demasiados intentos fallidos. Has sido bloqueado.");
+            }
         }
 
         
@@ -59,6 +64,13 @@ function Login(){
 
     return(
     <div className="login">
+        {blockStatus ? 
+        <div className="block_status">
+            <h1>Demasiados intentos fallidos</h1>
+            <h2>Comúnicate con un administrador</h2>
+        </div>
+        : 
+        <>
         <div className="title_container">
             <h1 className="bienvenidos">
                 Bienvenido al Sistema <span>POS</span>
@@ -79,6 +91,9 @@ function Login(){
             </form>
             {loginStatus && <div className="login_status" style={{ backgroundColor: statusColor }}>{loginStatus}</div>}
         </div>
+        </>
+        }
+
     </div>
     )
 }
