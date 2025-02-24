@@ -5,6 +5,7 @@ import './Login.css';
 function Login(){
 
     
+    
     const [data, setData] = useState(
         {
             jpoc: { usuario: "jpoc", clave: "12345", nombre: "Juan Ovalles", rol: "Admin" },
@@ -23,6 +24,7 @@ function Login(){
         return false;
     }
 
+    
     
 
     const [tries, setTries] = useState(3);

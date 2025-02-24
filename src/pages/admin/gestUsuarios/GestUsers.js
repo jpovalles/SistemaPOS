@@ -5,6 +5,8 @@ import { useState } from 'react';
 
 
 function GestUsers(){
+
+
     const roles = ['Admin', 'Vendedor'];
     const [data, setData] = useState(
         {
@@ -16,6 +18,8 @@ function GestUsers(){
     );
 
     const [newItem, setNewItem] = useState({ name: '', description: '' });
+    const [editingId, setEditingId] = useState(null);
+    const [editItem, setEditItem] = useState({ name: '', description: '' });
 
     const handleDelete = (key) => {
         const newUsers = {...data}
