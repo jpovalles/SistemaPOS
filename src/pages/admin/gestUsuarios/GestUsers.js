@@ -5,14 +5,17 @@ import { useState } from 'react';
 
 
 function GestUsers(){
+    const roles = ['Admin', 'Vendedor'];
     const [data, setData] = useState(
         {
-            jpoc: { usuario: "jpoc", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
-            jpoc2: { usuario: "jpoc2", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
-            jpoc3:{ usuario: "jpoc3", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
-            jpoc4: { usuario: "jpoc4", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" }
+            jpoc: { usuario: "jpoc", clave: "12345", nombre: "Juan Ovalles", rol: "Admin" },
+            jpoc2: { usuario: "jpoc2", clave: "12345", nombre: "Juan Ovalles", rol: "Admin" },
+            jpoc3:{ usuario: "jpoc3", clave: "12345", nombre: "Juan Ovalles", rol: "Vendedor" },
+            jpoc4: { usuario: "jpoc4", clave: "12345", nombre: "Juan Ovalles", rol: "Vendedor" }
         }
     );
+
+    const [newItem, setNewItem] = useState({ name: '', description: '' });
 
     const handleDelete = (key) => {
         const newUsers = {...data}
@@ -20,6 +23,15 @@ function GestUsers(){
         setData(newUsers)
     }
 
+    const handleAdd = () => {
+        if (newItem.usuario && newItem.clave && newItem.nombre && newItem.rol) {
+            setData({
+                ...data,
+                [newItem.usuario]: { ...newItem }
+            });
+            setNewItem({ usuario: '', clave: '', nombre: '', rol: '' });
+            }
+    };
     
     return(
         <div className="gest-users">
@@ -29,9 +41,50 @@ function GestUsers(){
                     <h1>Gestión de Usuarios</h1>
                 </div>
                 <div className='addUser'>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
-                    </svg>
+                    <input
+                        placeholder="Usuario"
+                        value={newItem.usuario}
+                        onChange={(e) => setNewItem({ ...newItem, usuario: e.target.value })}
+                    />
+                    <input
+                        placeholder="Clave"
+                        type="password"
+                        value={newItem.clave}
+                        onChange={(e) => setNewItem({ ...newItem, clave: e.target.value })}
+                    />
+                    <input
+                        placeholder="Nombre"
+                        value={newItem.nombre}
+                        onChange={(e) => setNewItem({ ...newItem, nombre: e.target.value })}
+                    />
+                    {
+                        /* 
+                        <input
+                            placeholder="Rol"
+                            value={newItem.rol}
+                            onChange={(e) => setNewItem({ ...newItem, rol: e.target.value })}
+                        />
+                        */
+                    }
+                    <select 
+                        value={newItem.rol}
+                        onChange={(e) => setNewItem({ ...newItem, rol: e.target.value })}
+                        className="border p-2 rounded"
+                        >
+                        <option value="">Seleccionar Rol</option>
+                        {roles.map(rol => (
+                            <option key={rol} value={rol}>
+                            {rol.charAt(0).toUpperCase() + rol.slice(1)}
+                            </option>
+                        ))}
+                    </select>
+                    <button className="addButton" onClick={handleAdd}>
+            
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="addIcon">
+                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+                            </svg>
+                        
+                    </button>
                 </div>
             </div>
             

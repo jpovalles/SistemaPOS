@@ -5,12 +5,14 @@ import './Login.css';
 function Login(){
 
     
-    const data = {
-        jpoc: { usuario: "jpoc", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
-        jpoc2: { usuario: "jpoc2", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
-        jpoc3:{ usuario: "jpoc3", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
-        jpoc4: { usuario: "jpoc4", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" }
-    }
+    const [data, setData] = useState(
+        {
+            jpoc: { usuario: "jpoc", clave: "12345", nombre: "Juan Ovalles", rol: "Admin" },
+            jpoc2: { usuario: "jpoc2", clave: "12345", nombre: "Juan Ovalles", rol: "Admin" },
+            jpoc3:{ usuario: "jpoc3", clave: "12345", nombre: "Juan Ovalles", rol: "Vendedor" },
+            jpoc4: { usuario: "jpoc4", clave: "12345", nombre: "Juan Ovalles", rol: "Vendedor" }
+        }
+    );
 
     const authenticateUser = (user, password) => {
         if(data[user]){
@@ -39,7 +41,8 @@ function Login(){
             setTries(3);
             localStorage.setItem("username", user);
             setTimeout(() => {
-                navigate("/admin");
+                data[user].rol === "Admin" ? navigate("/admin") : navigate("/vendedor/RegistroClientes");
+                
             }, 1000);
         }else{
             setStatusColor("#ff5252");
