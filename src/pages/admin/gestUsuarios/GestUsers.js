@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 function GestUsers(){
 
-
     const roles = ['Admin', 'Vendedor'];
     const [data, setData] = useState(
         {

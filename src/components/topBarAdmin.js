@@ -34,9 +34,11 @@ const TopbarAdmin = ({ paginaActualAdmin }) => {
                         <span className="icon" >📋 </span>
                         <span className="text">Reportes</span>
                     </li>
-                    <li className={paginaActualAdmin === "usuarioAdmin" ? "active" : ""}>
+                    <li className={paginaActualAdmin === "clientesAdmin" ? "active" : ""}
+                        onClick={() => navigate("/admin/Clientes")}
+                    >
                         <span className="icon">👤</span>
-                        <span className="text">Usuario</span>
+                        <span className="text">Clientes</span>
                     </li>
                 </ul>
             </nav>

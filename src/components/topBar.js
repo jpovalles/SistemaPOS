@@ -4,19 +4,22 @@ import "./TopBar.css";
 
 const Topbar = ({ paginaActual }) => {
     const navigate = useNavigate();
+    const handleClick = () => {
+        navigate("/vendedor");
+    };
     return (
         <div className="topbar">
-            <h2 className="title">
+            <h2 className="title" onClick={handleClick} style={{ cursor: "pointer" }}>
                 <span className="sistema">SISTEMA</span>{" "}
                 <span className="pos">POS</span>
             </h2>
             <nav className="menu">
                 <ul>
-                    <li className={paginaActual === "clientes" ? "active" : ""} 
+                    <li className={paginaActual === "Gestionclientes" ? "active" : ""} 
                         onClick={() => navigate("/vendedor/RegistroClientes")}
                     >
                         <img src="/fotoUsuario.png" alt="Logo del sistema" className="logo" />
-                        <span className="text">Clientes</span>
+                        <span className="text">Gestión Clientes</span>
                     </li>
                     <li className={paginaActual === "inventario" ? "active" : ""}
                         onClick={() => navigate("/vendedor/inventario")}
@@ -30,9 +33,11 @@ const Topbar = ({ paginaActual }) => {
                         <span className="icon" >💰 </span>
                         <span className="text">Cajas</span>
                     </li>
-                    <li className={paginaActual === "usuario" ? "active" : ""}>
+                    <li className={paginaActual === "clientes" ? "active" : ""}
+                        onClick={() => navigate("/vendedor/clientes")}
+                    >
                         <span className="icon">👤</span>
-                        <span className="text">Usuario</span>
+                        <span className="text">Clientes</span>
                     </li>
                 </ul>
             </nav>

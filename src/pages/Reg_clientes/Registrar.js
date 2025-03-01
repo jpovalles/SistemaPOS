@@ -24,7 +24,7 @@ function Registrar() {
 
     return (
         <div>
-            <Topbar paginaActual="clientes" />
+            <Topbar paginaActual="Gestionclientes" />
             <div className="cont_titulo">
                 <h1 className="titulo">Registrar Clientes</h1>
             </div>
