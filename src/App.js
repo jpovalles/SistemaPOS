@@ -10,6 +10,7 @@ import InventarioVendedor from "./pages/inventario/Inventario";
 import InventarioAdmin from "./pages/inventario/InventarioAdmin";
 import Clientes from "./pages/Clientes/Clientes"
 import ClientesAdmin from "./pages/Clientes/ClientesAdmin"
+import ReporteVentas from "./pages/ReporteVentas/ReporteVentas";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/vendedor/RegistroClientes" element={<Registrar/>}/> 
         <Route path="/vendedor/Clientes" element={<Clientes/>}/>
         <Route path="/admin/Clientes" element={<ClientesAdmin/>}/>
+        <Route path="/admin/Reporte" element={<ReporteVentas/>}/>
       </Routes>
     </div>
   );

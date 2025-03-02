@@ -105,7 +105,7 @@ const Facturacion = () => {
             </div>
           )}
 
-          <div className="button-container">
+          <div className="button-container2">
             <button className="cancel-button" onClick={cancelarFactura}>
               Cancelar factura
             </button>

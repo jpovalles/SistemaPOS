@@ -29,7 +29,7 @@ const TopbarAdmin = ({ paginaActualAdmin }) => {
                         <span className="text">Inventario</span>
                     </li>
                     <li className={paginaActualAdmin === "reporte" ? "active" : ""}
-                        // onClick={() => navigate("/vendedor/facturacion")}
+                        onClick={() => navigate("/admin/Reporte")}
                     >
                         <span className="icon" >📋 </span>
                         <span className="text">Reportes</span>

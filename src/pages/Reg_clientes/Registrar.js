@@ -19,14 +19,14 @@ function Registrar() {
         setClientes([...clientes, formData]);
         setFormData({ nombre: "", documento: "", correo: "", telefono: "" });
         setMensaje("Se registró correctamente el cliente");
-        setTimeout(() => setMensaje(""), 3000);
+        setTimeout(() => setMensaje(""), 4000);
     };
 
     return (
         <div>
             <Topbar paginaActual="Gestionclientes" />
             <div className="cont_titulo">
-                <h1 className="titulo">Registrar Clientes</h1>
+                <h1 className="titulo-registro">Registrar Clientes</h1>
             </div>
             <div className="cont_form">
                 <form onSubmit={envio}>
