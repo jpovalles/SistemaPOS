@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import Topbar from "../../components/TopBar";
 import ListaProductos from "../../components/ListaProductos";
-import ResumenCompra from "../../components/RresumenCompra";
-import RegistrarProducto from "../../components/RregistrarProducto";
+import ResumenCompra from "../../components/ResumenCompra";
+import RegistrarProducto from "../../components/RegistrarProducto";
 import ProductContext from "../../context/ProductContext";
+import DocumentoCliente from "../../components/DocumentoCliente";
 import "./Facturacion.css";
 
 const productosDisponibles = [
@@ -20,11 +21,17 @@ const Facturacion = () => {
   const [mensajeError, setMensajeError] = useState("");
   const [facturaCancelada, setFacturaCancelada] = useState(false);
 
+  const [metodoPago, setMetodoPago] = useState(null);
+  const [montoEfectivo, setMontoEfectivo] = useState("");
+
   const finalizarCompra = () => {
     if (productos.length > 0) {
       setCompraFinalizada(true);
       setProductos([]);
       localStorage.removeItem("productos"); // Limpiar localStorage
+      
+      setMetodoPago(null);
+      setMontoEfectivo("");
 
       setTimeout(() => {
         setCompraFinalizada(false);
@@ -97,10 +104,28 @@ const Facturacion = () => {
               <h2>¡La factura fue cancelada con éxito!</h2>
             </div>
           )}
+
+          <div className="button-container">
+            <button className="cancel-button" onClick={cancelarFactura}>
+              Cancelar factura
+            </button>
+            <button className="finish-button" onClick={finalizarCompra}>
+              Finalizar
+            </button>
+          </div>
         </div>
 
         <div className="summary-section">
-          <ResumenCompra productos={productos} />
+        <ResumenCompra
+            productos={productos}
+            metodoPago={metodoPago}
+            setMetodoPago={setMetodoPago}
+            montoEfectivo={montoEfectivo}
+            setMontoEfectivo={setMontoEfectivo}
+          />
+          <div className="documento-section">
+            <DocumentoCliente />
+          </div>
         </div>
       </div>
 
@@ -108,14 +133,6 @@ const Facturacion = () => {
         <RegistrarProducto agregarProducto={agregarProducto} />
       </div>
 
-      <div className="button-container">
-        <button className="cancel-button" onClick={cancelarFactura}>
-          Cancelar factura
-        </button>
-        <button className="finish-button" onClick={finalizarCompra}>
-          Finalizar
-        </button>
-      </div>
     </div>
   );
 };

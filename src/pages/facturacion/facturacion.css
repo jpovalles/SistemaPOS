@@ -4,6 +4,7 @@
   align-items: center;
   padding: 2rem;
   font-family: Arial, sans-serif;
+  width: 100%;
 }
 
 .content {
@@ -16,31 +17,41 @@
 .product-section {
   flex: 2;
   margin-top: 15vh;
+  margin-left: -25vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .summary-section {
   flex: 1;
   margin-top: 15vh;
+  margin-left: -15vh;
 }
 
 .registro-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 15vw; 
-  position: relative; 
-  margin-top: 1vh;
-  margin-left: 114vh;
+  position: absolute; 
+  bottom: -20px;  
+  right: 30%;
+  width: 100px; /* Tamaño fijo */
+  border-radius: 8px;
+}
+
+.documento-section {
+  position: absolute;  
+  bottom: -20px;
+  right: 5%;
+  width: 100px;
+  border-radius: 8px;
 }
 
 .button-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  margin-top: -450px; 
-  margin-right: 0; 
-  position: relative; 
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-left: 70vh;
+  margin-top: 7vh;
+  position: absolute;
 }
 
 .cancel-button {
@@ -80,7 +91,7 @@
   border-radius: 5px;
   border: 1px solid #c3e6cb;
   text-align: center;
-  margin-top: 60px;
+  margin-top: 20px;
   margin-left: 80px;
   font-size: 18px;
   font-weight: bold;
@@ -94,33 +105,23 @@
   padding: 15px;
   border-radius: 5px;
   text-align: center;
-  margin-top: 60px;
+  margin-top: 20px;
   margin-left: 80px;
   font-size: 18px;
   font-weight: bold;
-  width: 50%;
+  width: 65%;
 }
-
-.mensaje-finalizacion {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.mensaje-cancelacionFactura {
-  background-color: #ffcccc;
-  border: 1px solid #ffcccc;
-  color: #cc0000;
-}
-
 
 .mensaje-error {
   border: 1px solid #ffcccc;
+  padding: 0.3%;
+  position: absolute;
   border-radius: 5px;
   text-align: center;
   background-color: #ffcccc;
   color: #cc0000;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-top: 6px;
 }
+
 
