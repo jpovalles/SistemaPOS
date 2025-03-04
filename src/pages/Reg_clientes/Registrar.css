@@ -1,5 +1,4 @@
-.titulo{
-    background-color: #2196F3;
+.titulo-registro{
     margin: 0 auto;
     width: 40%;
     text-align: center;
@@ -25,6 +24,7 @@
 .cont_form{
     text-align: center;
     height: 100%;
+    margin-top: -20px;
 }
 
 .nombres{
