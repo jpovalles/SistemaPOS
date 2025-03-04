@@ -1,6 +1,7 @@
 import "./Registrar.css";
 import React, { useState } from "react";
 import Topbar from "../../components/TopBar";
+import { agregarClientes } from "../../api";
 
 function Registrar() {
     const [formData, setFormData] = useState({
@@ -14,9 +15,10 @@ function Registrar() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const envio = (e) => {
+    const envio = async(e) => {
         e.preventDefault(); 
-        setClientes([...clientes, formData]);
+        const nuevoCliente = await agregarClientes(formData.documento, formData.nombre, formData.correo, formData.telefono);
+        setClientes([...clientes, nuevoCliente]);
         setFormData({ nombre: "", documento: "", correo: "", telefono: "" });
         setMensaje("Se registró correctamente el cliente");
         setTimeout(() => setMensaje(""), 3000);
