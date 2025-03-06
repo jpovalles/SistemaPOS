@@ -1,31 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Topbar from "../../components/TopBar";
 import "./Clientes.css";
+import { obtenerClientes } from "../../api";
+
 
 const Clientes = () => {
 
-  const [clientes, setClientes] = useState([
-    { id: 1, nombre: "Juan", documento: "4343432", numero: "7576657", correo: "juan@ex.com" },
-    { id: 2, nombre: "Ana", documento: "323232", numero: "3131323", correo: "ana@ex.com" },
-  ]);
-
+  const [clientes, setClientes] = useState([]);
   const [editando, setEditando] = useState(null);
-  const [clienteEdit, setClienteEdit] = useState({});
+  const [clienteEdit, setClienteEdit] = useState([]);
 
-  const eliminarCliente = (id) => {
+  useEffect(() => {
+      async function cargarClientes(){
+        const data = await obtenerClientes();
+        setClientes(data);
+      }
+      cargarClientes();
+    }, []);
+
+  const eliminarCliente = (documento) => {
     const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar al cliente?");
     if (confirmacion) {
-      setClientes(clientes.filter((cliente) => cliente.id !== id));
+      setClientes(clientes.filter((cliente) => cliente.documento !== documento));
     }
   };
 
   const editarCliente = (cliente) => {
-    setEditando(cliente.id);
+    setEditando(cliente.documento);
     setClienteEdit(cliente);
   };
 
   const guardarEdicion = () => {
-    setClientes(clientes.map((c) => (c.id === clienteEdit.id ? clienteEdit : c)));
+    setClientes(clientes.map((c) => (c.documento === clienteEdit.documento ? clienteEdit : c)));
     setEditando(null);
   };
 
@@ -45,13 +51,13 @@ const Clientes = () => {
         </thead>
         <tbody>
           {clientes.map((cliente) => (
-            <tr key={cliente.id}>
-              {editando === cliente.id ? (
+            <tr key={cliente.documento}>
+              {editando === cliente.documento ? (
                 <>
                   <td><input value={clienteEdit.nombre} onChange={(e) => setClienteEdit({ ...clienteEdit, nombre: e.target.value })} /></td>
                   <td><input value={clienteEdit.documento} onChange={(e) => setClienteEdit({ ...clienteEdit, documento: e.target.value })} /></td>
-                  <td><input value={clienteEdit.numero} onChange={(e) => setClienteEdit({ ...clienteEdit, numero: e.target.value })} /></td>
-                  <td><input value={clienteEdit.correo} onChange={(e) => setClienteEdit({ ...clienteEdit, correo: e.target.value })} /></td>
+                  <td><input value={clienteEdit.telefono} onChange={(e) => setClienteEdit({ ...clienteEdit, telefono: e.target.value })} /></td>
+                  <td><input value={clienteEdit.email} onChange={(e) => setClienteEdit({ ...clienteEdit, email: e.target.value })} /></td>
                   <td>
                     <button onClick={guardarEdicion} className="btn save">Guardar</button>
                   </td>
@@ -60,11 +66,11 @@ const Clientes = () => {
                 <>
                   <td>{cliente.nombre}</td>
                   <td>{cliente.documento}</td>
-                  <td>{cliente.numero}</td>
-                  <td>{cliente.correo}</td>
+                  <td>{cliente.telefono}</td>
+                  <td>{cliente.email}</td>
                   <td className="btn">
                     <button onClick={() => editarCliente(cliente)} className="btn edit">Editar</button>
-                    <button onClick={() => eliminarCliente(cliente.id)} className="btn delete">Eliminar</button>
+                    <button onClick={() => eliminarCliente(cliente.documento)} className="btn delete">Eliminar</button>
                   </td>
                 </>
               )}

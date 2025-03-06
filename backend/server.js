@@ -28,9 +28,18 @@ app.post("/clientes", async (req, res) => {
     }
 });
 
-{/*pool.connect()
+app.get("/clientes", async(req, res) => {
+    try{
+        const result = await pool.query("SELECT * FROM clientes;");
+        res.json(result.rows);
+    }catch (e) {
+        res.status(500).json({error: e.message})
+    }
+})
+
+pool.connect()
     .then(() => console.log("✅ Conexión exitosa con PostgreSQL"))
-    .catch(err => console.error("❌ Error al conectar con PostgreSQL:", err));*/}
+    .catch(err => console.error("❌ Error al conectar con PostgreSQL:", err));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

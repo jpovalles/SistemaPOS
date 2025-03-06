@@ -8,3 +8,8 @@ export async function agregarClientes(documento, nombre, email, telefono){
     });
     return response.json(); 
 }
+
+export async function obtenerClientes() {
+    const response = await fetch(`${API_URL}/clientes`);
+    return response.json();
+}
