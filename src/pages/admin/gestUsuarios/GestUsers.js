@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './GestUsers.css';
 import TopBarAdmin from "../../../components/TopBarAdmin";
 import { useState } from 'react';
+import {obtenerUsuarios, agregarUsuario } from "../../../api"
 
 
 function GestUsers(){
 
-    const roles = ['Admin', 'Vendedor'];
-    const [data, setData] = useState(
-        {
-            jpoc: { usuario: "jpoc", clave: "12345", nombre: "Juan Ovalles", rol: "Admin" },
-            jpoc2: { usuario: "jpoc2", clave: "12345", nombre: "Juan Ovalles", rol: "Admin" },
-            jpoc3:{ usuario: "jpoc3", clave: "12345", nombre: "Juan Ovalles", rol: "Vendedor" },
-            jpoc4: { usuario: "jpoc4", clave: "12345", nombre: "Juan Ovalles", rol: "Vendedor" }
-        }
-    );
+    const roles = {'Administrador': 1, 'Vendedor': 0};
+    const [data, setData] = useState([]);
 
     const [newItem, setNewItem] = useState({ name: '', description: '' });
     const [editingId, setEditingKey] = useState(null);
     const [editItem, setEditItem] = useState({ name: '', description: '' });
+
+    useEffect(() => {
+        async function cargarUsuarios(){
+            const dato = await obtenerUsuarios();
+            setData(dato);
+        }
+        cargarUsuarios();
+    }, [])
 
     const handleDelete = (key) => {
         const newUsers = {...data}
@@ -38,13 +40,13 @@ function GestUsers(){
         setEditingKey(null);
     };
 
-    const handleAdd = () => {
+    const handleAdd = async(e) => {
         if (newItem.usuario && newItem.clave && newItem.nombre && newItem.rol) {
-            setData({
-                ...data,
-                [newItem.usuario]: { ...newItem }
-            });
-            setNewItem({ usuario: '', clave: '', nombre: '', rol: '' });
+            e.preventDefault();
+            const nuevoUsuario = await agregarUsuario(newItem.usuario, newItem.clave, newItem.nombre, newItem.rol)
+            const rolNombre = Object.keys(roles).find(key => roles[key] === parseInt(nuevoUsuario.rol));
+            setData([...data, { ...nuevoUsuario, rol: rolNombre }]);
+            setNewItem({})
             }
     };
     
@@ -72,24 +74,15 @@ function GestUsers(){
                         value={newItem.nombre}
                         onChange={(e) => setNewItem({ ...newItem, nombre: e.target.value })}
                     />
-                    {
-                        /* 
-                        <input
-                            placeholder="Rol"
-                            value={newItem.rol}
-                            onChange={(e) => setNewItem({ ...newItem, rol: e.target.value })}
-                        />
-                        */
-                    }
                     <select 
                         value={newItem.rol}
                         onChange={(e) => setNewItem({ ...newItem, rol: e.target.value })}
                         className="border p-2 rounded"
                         >
                         <option value="">Seleccionar Rol</option>
-                        {roles.map(rol => (
-                            <option key={rol} value={rol}>
-                            {rol.charAt(0).toUpperCase() + rol.slice(1)}
+                        {Object.keys(roles).map((clave) => (
+                            <option key={clave} value={roles[clave]}>
+                            {clave.charAt(0).toUpperCase() + clave.slice(1)}
                             </option>
                         ))}
                     </select>

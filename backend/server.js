@@ -72,6 +72,29 @@ app.put('/clientes/:doc', async(req, res) => {
     }
 })
 
+//Listar usuarios
+app.get("/usuarios", async(req, res) => {
+    try{
+        const result = await pool.query(
+            "SELECT usuarios.usuario, usuarios.clave, usuarios.nombre, roles.nombre_rol AS rol FROM usuarios INNER JOIN roles ON roles.rol = usuarios.rol;");
+        res.json(result.rows);
+    }catch (e) {
+        res.status(500).json({error: e.message})
+    }
+})
+
+//Agregar usuarios
+app.post("/usuarios", async (req, res) => {
+    const {usuario, clave, nombre, rol} = req.body;
+    try{
+        const result = await pool.query(
+            "INSERT INTO usuarios (usuario, clave, nombre, rol) VALUES ($1, $2, $3, $4) RETURNING *", [usuario, clave, nombre, rol]);
+        res.json(result.rows[0]);
+    } catch(e){
+        res.status(500).json({error: e.message})
+    }
+});
+
 pool.connect()
     .then(() => console.log("✅ Conexión exitosa con PostgreSQL"))
     .catch(err => console.error("❌ Error al conectar con PostgreSQL:", err));
