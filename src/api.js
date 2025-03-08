@@ -46,3 +46,11 @@ export async function agregarUsuario(usuario, clave, nombre, rol){
     });
     return response.json(); 
 }
+
+export async function eliminarUsuario(usuario) {
+    const response = await fetch(`${API_URL}/usuarios/${usuario}`, {
+        method: "DELETE",
+    });
+    const data = await response.json();
+    return data;
+}

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './GestUsers.css';
 import TopBarAdmin from "../../../components/TopBarAdmin";
 import { useState } from 'react';
-import {obtenerUsuarios, agregarUsuario } from "../../../api"
+import {obtenerUsuarios, agregarUsuario, eliminarUsuario } from "../../../api"
 
 
 function GestUsers(){
@@ -22,11 +22,16 @@ function GestUsers(){
         cargarUsuarios();
     }, [])
 
-    const handleDelete = (key) => {
-        const newUsers = {...data}
-        delete newUsers[key]
-        setData(newUsers)
+    const handleDelete = async (user) => {
+        const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar este usuario?")    
+        if (confirmacion){
+            console.log("eliminando a: ", user);
+            await eliminarUsuario(user);
+            const data = await obtenerUsuarios();
+            setData(data);
+        }
     }
+
     const handleEdit = (key) => {
         setEditItem({ ...data[key] });
         setEditingKey(key);
@@ -46,7 +51,7 @@ function GestUsers(){
             const nuevoUsuario = await agregarUsuario(newItem.usuario, newItem.clave, newItem.nombre, newItem.rol)
             const rolNombre = Object.keys(roles).find(key => roles[key] === parseInt(nuevoUsuario.rol));
             setData([...data, { ...nuevoUsuario, rol: rolNombre }]);
-            setNewItem({})
+            setNewItem({ usuario: "", clave: "", nombre: "", rol: "" })
             }
     };
     
@@ -97,7 +102,7 @@ function GestUsers(){
             </div>
             
             <div className='tableContent'>
-            { Object.keys(data).length > 0 ? 
+            { data.length > 0 ? 
                 (
                 <table>
                     <thead>
@@ -110,9 +115,9 @@ function GestUsers(){
                     </tr>
                     </thead>
                     <tbody>
-                    {Object.entries(data).map(([key, user]) => (
-                        <tr key={key}>
-                        {editingId === key ? (
+                    {data.map((user) => (
+                        <tr key={user.usuario}>
+                        {editingId === user.usuario ? (
                             <>
                                 <td>
                                     <input
@@ -151,8 +156,8 @@ function GestUsers(){
                                 </select>
                                 </td>
                                 <td>
-                                    <div onClick={() => handleSave(key)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="saveIcon">
+                                    <div onClick={() => handleSave(user.usuario)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="saveIcon">
                                             <path d="M11.47 1.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1-1.06 1.06l-1.72-1.72V7.5h-1.5V4.06L9.53 5.78a.75.75 0 0 1-1.06-1.06l3-3ZM11.25 7.5V15a.75.75 0 0 0 1.5 0V7.5h3.75a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h3.75Z" />
                                         </svg>
                                     </div>
@@ -165,13 +170,13 @@ function GestUsers(){
                             <td className="px-4 py-2">{user.nombre}</td>
                             <td className="px-4 py-2">{user.rol}</td>
                             <td className="iconsRow">
-                                <div className={key} onClick={() => handleEdit(key)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="editIcon">
+                                <div className={user.usuario} onClick={() => handleEdit(user.usuario)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="editIcon">
                                         <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
                                     </svg>
                                 </div>
-                                <div className={key} onClick={() => handleDelete(key)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="deleteIcon">
+                                <div onClick={() => handleDelete(user.usuario)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="deleteIcon">
                                         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd" />
                                     </svg>
                                 </div>

@@ -103,3 +103,14 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en ${PORT}`);
 });
+
+//Eliminar usuario
+app.delete("/usuarios/:usuario", async (req, res) => {
+    try{
+        const { usuario } = req.params;
+        await pool.query("DELETE FROM usuarios WHERE usuario = $1", [usuario]);
+        res.json({succes: true, message: "Usuario eliminado"})
+    } catch(e){
+        res.status(500).json({ success: false, message: "Error"});
+    }
+})
