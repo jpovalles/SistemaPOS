@@ -21,3 +21,14 @@ export async function eliminarCliente(documento) {
     const data = await response.json();
     return data;
 }
+
+export async function actualizarCliente(doc, documento, nombre, email, telefono){
+    const response = await fetch(`${API_URL}/clientes/${doc}`, {
+        method: "PUT", 
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({documento, nombre, email, telefono}),
+    });
+
+    const data = await response.json();
+    return data;
+}

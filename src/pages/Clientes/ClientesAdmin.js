@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TopbarAdmin from "../../components/TopBarAdmin";
 import "./ClientesAdmin.css";
-import { obtenerClientes, eliminarCliente } from "../../api";
+import { obtenerClientes, eliminarCliente, actualizarCliente } from "../../api";
 
 const ClientesAdmin = () => {
 
@@ -31,9 +31,21 @@ const ClientesAdmin = () => {
     setClienteEdit(cliente);
   };
 
-  const guardarEdicion = () => {
-    setClientes(clientes.map((c) => (c.documento === clienteEdit.documento ? clienteEdit : c)));
-    setEditando(null);
+  const guardarEdicion = async () => {
+    const respuesta = await actualizarCliente(
+      editando, //documento original
+      clienteEdit.documento, 
+      clienteEdit.nombre,
+      clienteEdit.email, 
+      clienteEdit.telefono
+    )
+    if (respuesta.success){
+      console.log(respuesta.cliente)
+      setClientes(clientes.map((c) => (c.documento === editando ? { ...clienteEdit }: c)));
+      setEditando(null);
+    }else{
+      alert(respuesta.message || "Error al actualizar")
+    }
   };
 
   return (

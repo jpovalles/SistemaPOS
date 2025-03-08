@@ -28,6 +28,7 @@ app.post("/clientes", async (req, res) => {
     }
 });
 
+//Listar clientes
 app.get("/clientes", async(req, res) => {
     try{
         const result = await pool.query("SELECT * FROM clientes;");
@@ -37,6 +38,7 @@ app.get("/clientes", async(req, res) => {
     }
 })
 
+//Eliminar clientes
 app.delete("/clientes/:documento", async (req, res) => {
     try{
         const { documento } = req.params;
@@ -44,6 +46,29 @@ app.delete("/clientes/:documento", async (req, res) => {
         res.json({succes: true, message: "Cliente eliminado"})
     } catch(e){
         res.status(500).json({ success: false, message: "Error"});
+    }
+})
+
+app.put('/clientes/:doc', async(req, res) => {
+    try{
+        const { doc } = req.params;
+        const { documento, nombre, email, telefono} = req.body;
+
+        const existe = await pool.query(
+            "SELECT 1 FROM clientes WHERE documento = $1", [doc]
+        )
+        if(existe.rowCount > 0 && documento !== doc){
+            return res.status(409).json({success: false, message: "El documento ya existe"})
+        }
+
+
+        await pool.query(
+            "UPDATE clientes SET documento = $1, nombre = $2, email = $3, telefono = $4 WHERE documento = $5 RETURNING *", [documento, nombre, email, telefono, doc]);
+        
+        res.json({success: true, message: "Cliente actualizado"})
+            
+    }catch(e){
+        res.status(500).json({success: false, message: "Error en la modificacion"})
     }
 })
 
