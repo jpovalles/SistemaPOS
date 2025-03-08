@@ -13,3 +13,11 @@ export async function obtenerClientes() {
     const response = await fetch(`${API_URL}/clientes`);
     return response.json();
 }
+
+export async function eliminarCliente(documento) {
+    const response = await fetch(`${API_URL}/clientes/${documento}`, {
+        method: "DELETE",
+    });
+    const data = await response.json();
+    return data;
+}

@@ -37,6 +37,16 @@ app.get("/clientes", async(req, res) => {
     }
 })
 
+app.delete("/clientes/:documento", async (req, res) => {
+    try{
+        const { documento } = req.params;
+        await pool.query("DELETE FROM clientes WHERE documento = $1", [documento]);
+        res.json({succes: true, message: "Cliente eliminado"})
+    } catch(e){
+        res.status(500).json({ success: false, message: "Error"});
+    }
+})
+
 pool.connect()
     .then(() => console.log("✅ Conexión exitosa con PostgreSQL"))
     .catch(err => console.error("❌ Error al conectar con PostgreSQL:", err));

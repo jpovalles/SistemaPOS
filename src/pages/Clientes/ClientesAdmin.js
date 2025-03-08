@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TopbarAdmin from "../../components/TopBarAdmin";
 import "./ClientesAdmin.css";
-import { obtenerClientes } from "../../api";
+import { obtenerClientes, eliminarCliente } from "../../api";
 
 const ClientesAdmin = () => {
 
@@ -17,10 +17,12 @@ const ClientesAdmin = () => {
     cargarClientes();
   }, []);
 
-  const eliminarCliente = (documento) => {
+  const manejarEliminar = async (documento) => {
     const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar al cliente?");
     if (confirmacion) {
-      setClientes(clientes.filter((cliente) => cliente.documento !== documento));
+      await eliminarCliente(documento);
+      const data = await obtenerClientes(); 
+      setClientes(data)
     }
   };
 
@@ -69,7 +71,7 @@ const ClientesAdmin = () => {
                   <td>{cliente.email}</td>
                   <td className="btn">
                     <button onClick={() => editarCliente(cliente)} className="btn edit">Editar</button>
-                    <button onClick={() => eliminarCliente(cliente.documento)} className="btn delete">Eliminar</button>
+                    <button onClick={() => manejarEliminar(cliente.documento)} className="btn delete">Eliminar</button>
                   </td>
                 </>
               )}
