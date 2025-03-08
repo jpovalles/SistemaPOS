@@ -54,3 +54,14 @@ export async function eliminarUsuario(usuario) {
     const data = await response.json();
     return data;
 }
+
+export async function actualizarUsuario(user, usuario, clave, nombre, rol){
+    const response = await fetch(`${API_URL}/usuarios/${user}`, {
+        method: "PUT", 
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({usuario, clave, nombre, rol}),
+    });
+
+    const data = await response.json();
+    return data;
+}

@@ -49,6 +49,7 @@ app.delete("/clientes/:documento", async (req, res) => {
     }
 })
 
+//Modificar clientes
 app.put('/clientes/:doc', async(req, res) => {
     try{
         const { doc } = req.params;
@@ -112,5 +113,29 @@ app.delete("/usuarios/:usuario", async (req, res) => {
         res.json({succes: true, message: "Usuario eliminado"})
     } catch(e){
         res.status(500).json({ success: false, message: "Error"});
+    }
+})
+
+//Modificar usuarios
+app.put('/usuarios/:user', async(req, res) => {
+    try{
+        const { user } = req.params;
+        const { usuario, clave, nombre, rol } = req.body;
+
+        const existe = await pool.query(
+            "SELECT 1 FROM usuarios WHERE usuario = $1", [user]
+        )
+        if(existe.rowCount > 0 && usuario !== user){
+            return res.status(409).json({success: false, message: "El documento ya existe"})
+        }
+
+
+        await pool.query(
+            "UPDATE usuarios SET usuario = $1, clave = $2, nombre = $3, rol = $4 WHERE usuario = $5 RETURNING *", [usuario, clave, nombre, rol, user]);
+        
+        res.json({success: true, message: "Cliente actualizado"})
+            
+    }catch(e){
+        res.status(500).json({success: false, message: "Error en la modificacion"})
     }
 })

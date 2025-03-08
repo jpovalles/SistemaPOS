@@ -40,7 +40,6 @@ const ClientesAdmin = () => {
       clienteEdit.telefono
     )
     if (respuesta.success){
-      console.log(respuesta.cliente)
       setClientes(clientes.map((c) => (c.documento === editando ? { ...clienteEdit }: c)));
       setEditando(null);
     }else{
