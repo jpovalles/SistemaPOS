@@ -7,6 +7,12 @@ const Topbar = ({ paginaActual }) => {
     const handleClick = () => {
         navigate("/vendedor");
     };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");  // Elimina el token de autenticación
+        localStorage.removeItem("rol");    // Elimina el rol del usuario
+        window.location.href = "/";   // Redirige al usuario al login
+    };
     return (
         <div className="topbar">
             <h2 className="title" onClick={handleClick} style={{ cursor: "pointer" }}>
@@ -38,6 +44,9 @@ const Topbar = ({ paginaActual }) => {
                     >
                         <span className="icon">👤</span>
                         <span className="text">Clientes</span>
+                    </li>
+                    <li onClick={() => handleLogout()} className="logout">
+                        Cerrar sesión
                     </li>
                 </ul>
             </nav>

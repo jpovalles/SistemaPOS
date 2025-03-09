@@ -47,6 +47,7 @@
   cursor: pointer;
   padding: 10px 15px;
   color: white;
+  border-radius: 10px;
 }
 
 .menu li:hover {
@@ -68,6 +69,20 @@
   font-weight: bold;
   color: white;
 }
+
+.logout {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 40px;
+  color: #38b6ff;
+  border-radius: 30px;
+}
+
+.logout:hover {
+  background-color: #38b6ff;
+  color: white;
+}
+
 
 .vendedor {
   font-size: 18px;
