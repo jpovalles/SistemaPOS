@@ -10,6 +10,8 @@ import InventarioAdmin from "./pages/inventario/InventarioAdmin";
 import Clientes from "./pages/Clientes/Clientes"
 import ClientesAdmin from "./pages/Clientes/ClientesAdmin"
 import ReporteVentas from "./pages/ReporteVentas/ReporteVentas";
+import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./pages/NotFound/NotFound";
 
 
 function App() {
@@ -17,15 +19,18 @@ function App() {
     <div className="app">
       <Routes>
         <Route path="/" element={<Login/>} />
-        <Route path="/admin" element={<AdminView/>} />
-        <Route path="/admin/gestUsers" element={<GestUsers/>} />
-        <Route path="/vendedor/inventario" element={<InventarioVendedor/>} />
-        <Route path="/admin/inventario" element={<InventarioAdmin/>} />
-        <Route path="/vendedor/facturacion" element={<Facturacion/>} />
-        <Route path="/vendedor/RegistroClientes" element={<Registrar/>}/> 
-        <Route path="/vendedor/Clientes" element={<Clientes/>}/>
-        <Route path="/admin/Clientes" element={<ClientesAdmin/>}/>
-        <Route path="/admin/Reporte" element={<ReporteVentas/>}/>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<AdminView/>} />
+          <Route path="/admin/gestUsers" element={<GestUsers/>} />
+          <Route path="/admin/inventario" element={<InventarioAdmin/>} />
+          <Route path="/admin/Clientes" element={<ClientesAdmin/>}/>
+          <Route path="/admin/Reporte" element={<ReporteVentas/>}/>
+          <Route path="/vendedor/inventario" element={<InventarioVendedor/>} />
+          <Route path="/vendedor/facturacion" element={<Facturacion/>} />
+          <Route path="/vendedor/RegistroClientes" element={<Registrar/>}/> 
+          <Route path="/vendedor/Clientes" element={<Clientes/>}/>
+        </Route>
+        <Route exact path="*" element={<NotFound/>}/>
       </Routes>
     </div>
   );

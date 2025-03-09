@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { login } from '../../api';
 
 function Login() {
     const UNLOCK_PIN = "1234"; 
 
-    const data = {
-        jpoc: { usuario: "jpoc", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" },
-        jpoc2: { usuario: "jpoc2", clave: "123456789", nombre: "Juan Ovalles", rol: "admin" }
-    };
 
     const [tries, setTries] = useState(5);
-    const [loginStatus, setLoginStatus] = useState("");
+    const [usuario, setUsuario] = useState("");
+    const [clave, setClave] = useState("");
     const [statusColor, setStatusColor] = useState("");
     const [isBlocked, setIsBlocked] = useState(false);
     const [unlockPin, setUnlockPin] = useState("");
+    const [mensaje, setMensaje] = useState("");
 
     const navigate = useNavigate();
 
+    /*
     const authenticateUser = (user, password) => {
         return data[user] && data[user].clave === password;
     };
@@ -52,7 +52,49 @@ function Login() {
                 passField.value = "";
             }
         }
-    };
+    };*/
+
+    useEffect(() => {
+        localStorage.removeItem("token");  // Elimina el token de autenticación
+        localStorage.removeItem("rol");    // Elimina el rol del usuario
+    }, [])
+    
+    
+
+    const handleLogin = async  (e) => {
+        e.preventDefault();
+        if (isBlocked) return;
+
+        const data = await login(usuario, clave);
+
+        if (data.token) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("rol", data.rol);
+
+            setMensaje(data.message);
+            
+            if(data.rol === 1) {
+                setStatusColor("#58cf39");
+                setTimeout(() => navigate("/admin"), 1000);
+            }else if(data.rol === 0){
+                setStatusColor("#58cf39");
+                setTimeout(() => navigate("/vendedor/registroClientes"), 1000);
+            }else{
+                setMensaje("Rol no reconocido");
+                setStatusColor("#ffcc00");
+                setTimeout(() => navigate("/"), 1000);
+            }
+        } else {
+            if (tries - 1 === 0) {
+                setIsBlocked(true);
+                setMensaje("");
+            } else {
+                setStatusColor("#ff5252");
+                setTries(tries - 1);
+                setMensaje(`${data.message}. Intentos restantes: ${tries - 1}`);                
+            }
+        }
+    }
 
     const handleUnlock = (e) => {
         if (e.key === "Enter") {
@@ -78,15 +120,15 @@ function Login() {
             <div className="form_container">
                 <form onSubmit={handleLogin}>
                     <p>Usuario:</p>
-                    <input className="user" type="text" required placeholder="Ingrese su usuario" disabled={isBlocked} />
+                    <input className="user" type="text" required placeholder="Ingrese su usuario" disabled={isBlocked} onChange={(e) => setUsuario(e.target.value)}/>
 
                     <p>Contraseña:</p>
-                    <input className="password" type="password" required placeholder="Ingrese su contraseña" disabled={isBlocked} />
+                    <input className="password" type="password" required placeholder="Ingrese su contraseña" disabled={isBlocked} onChange={(e) => setClave(e.target.value)}/>
 
                     <button disabled={isBlocked}>Entrar</button>
                 </form>
-                {loginStatus && !isBlocked && (
-                    <div className="login_status" style={{ backgroundColor: statusColor }}>{loginStatus}</div>
+                {mensaje && !isBlocked && (
+                    <div className="login_status" style={{ backgroundColor: statusColor }}>{mensaje}</div>
                 )}
             </div>
 

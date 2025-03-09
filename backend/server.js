@@ -84,6 +84,7 @@ app.get("/usuarios", async(req, res) => {
     }
 })
 
+
 //Agregar usuarios
 app.post("/usuarios", async (req, res) => {
     const {usuario, clave, nombre, rol} = req.body;
@@ -96,14 +97,6 @@ app.post("/usuarios", async (req, res) => {
     }
 });
 
-pool.connect()
-    .then(() => console.log("✅ Conexión exitosa con PostgreSQL"))
-    .catch(err => console.error("❌ Error al conectar con PostgreSQL:", err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en ${PORT}`);
-});
 
 //Eliminar usuario
 app.delete("/usuarios/:usuario", async (req, res) => {
@@ -138,4 +131,38 @@ app.put('/usuarios/:user', async(req, res) => {
     }catch(e){
         res.status(500).json({success: false, message: "Error en la modificacion"})
     }
+
+
+});
+
+// Autenticación de usuarios
+app.post("/login", async (req, res) => {
+    const { usuario, clave } = req.body;
+
+    try {
+        const result = await pool.query("SELECT * FROM usuarios WHERE usuario = $1", [usuario]);
+
+        if (result.rows.length === 0) {
+            return res.status(401).json({ message: "Usuario no encontrado" });
+        }
+
+        const user = result.rows[0];
+
+        if (user.clave !== clave) {
+            return res.status(401).json({ message: "Contraseña incorrecta" });
+        }
+
+        res.json({ message: "Login exitoso", token:true, rol:user.rol });
+    } catch (error) {
+        res.status(500).json({ message: "Error en el servidor", error });
+    }
+});
+
+pool.connect()
+    .then(() => console.log("✅ Conexión exitosa con PostgreSQL"))
+    .catch(err => console.error("❌ Error al conectar con PostgreSQL:", err));
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en ${PORT}`);
 })

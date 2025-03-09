@@ -1,5 +1,7 @@
 const API_URL = "http://localhost:5000";
 
+
+// CRUD de clientes
 export async function agregarClientes(documento, nombre, email, telefono){
     const response = await fetch(`${API_URL}/clientes`, {
         method: "POST",
@@ -33,6 +35,9 @@ export async function actualizarCliente(doc, documento, nombre, email, telefono)
     return data;
 }
 
+
+
+// CRUD de usuarios
 export async function obtenerUsuarios() {
     const response = await fetch(`${API_URL}/usuarios`);
     return response.json();
@@ -64,4 +69,14 @@ export async function actualizarUsuario(user, usuario, clave, nombre, rol){
 
     const data = await response.json();
     return data;
+}
+
+// Autenticación de usuarios
+export async function login(usuario, clave){
+    const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({usuario, clave}),
+    });
+    return response.json();
 }
