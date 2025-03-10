@@ -70,6 +70,7 @@ function Login() {
         if (data.token) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("rol", data.rol);
+            localStorage.setItem("username", usuario);
 
             setMensaje(data.message);
             
@@ -78,7 +79,7 @@ function Login() {
                 setTimeout(() => navigate("/admin"), 1000);
             }else if(data.rol === 0){
                 setStatusColor("#58cf39");
-                setTimeout(() => navigate("/vendedor/registroClientes"), 1000);
+                setTimeout(() => navigate("/vendedor/"), 1000);
             }else{
                 setMensaje("Rol no reconocido");
                 setStatusColor("#ffcc00");

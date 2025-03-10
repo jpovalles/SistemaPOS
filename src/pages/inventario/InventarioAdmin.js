@@ -1,31 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, use } from "react";
 import TopbarAdmin from "../../components/TopBarAdmin";
-import "./Inventario.css";
-
-const productosDisponibles = [
-  { id: "001", nombre: "Arroz", precio: 10000, cantidad: 20 },
-  { id: "002", nombre: "Salsa de Tomate", precio: 6000, cantidad: 15 },
-  { id: "003", nombre: "Pollo", precio: 20000, cantidad: 10 },
-  { id: "004", nombre: "Carne", precio: 26000, cantidad: 8 },
-  { id: "005", nombre: "Frijoles", precio: 8000, cantidad: 25 },
-];
+import "./InventarioAdmin.css";
+import { obtenerInventario, agregarProducto } from "../../api";
 
 const InventarioAdmin = () => {
+  const [invenActual, setInvenActual] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const [resultados, setResultados] = useState([]);
+  const [inventario, setInventario] = useState([]);
+  const [searchState, setSearchState] = useState(false);
+  const [newItem, setNewItem] = useState({ nombreProducto: '',  Precio: '', Cantidad: '' });
+  const [mensaje, setMensaje] = useState('')
 
   const handleSearch = () => {
-    const filtrados = productosDisponibles.filter(
+    const filtrados = inventario.filter(
       (producto) =>
-        producto.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-        producto.id.includes(busqueda)
+        producto.nombreProducto.toLowerCase().includes(busqueda.toLowerCase()) ||
+        producto.idProducto.toString().includes(busqueda)
     );
-    setResultados(filtrados);
+    setInvenActual(filtrados);
+    setSearchState(true);
   };
+
+  const handleRestart = () => {
+    setInvenActual(inventario);
+    setSearchState(false);
+    setBusqueda("");
+  }
+
+  const handleAdd = async(e) => {
+          e.preventDefault(); 
+          console.log(newItem)
+          const nuevoProducto = await agregarProducto(newItem.nombreProducto, newItem.Precio, newItem.Cantidad);
+          setInventario([...inventario, nuevoProducto]);
+          setInvenActual([...inventario]);
+          setNewItem({nombreProducto: '',  Precio: '', Cantidad: '' });
+          setMensaje("Se registró correctamente el producto");
+          setTimeout(() => setMensaje(""), 4000);
+      };
+
+  useEffect(() => {
+      async function cargarInventario(){
+        const data = await obtenerInventario();
+        setInventario(data);
+        setInvenActual(data);
+      }
+      cargarInventario();
+    }, [inventario]);
 
   return (
     <div className="inventario-container">
         <TopbarAdmin paginaActualAdmin="inventarioAdmin"/>
+
+        <div className='addProduct'>
+          <input
+              placeholder="Nombre producto"
+              value={newItem.nombreProducto}
+              onChange={(e) => setNewItem({ ...newItem, nombreProducto: e.target.value })}
+          />
+          <input
+              placeholder="Precio"
+              type="number"
+              value={newItem.Precio}
+              onChange={(e) => setNewItem({ ...newItem, Precio: e.target.value })}
+          />
+          <input
+              placeholder="Cantidad"
+              type="number"
+              value={newItem.Cantidad}
+              onChange={(e) => setNewItem({ ...newItem, Cantidad: e.target.value })}
+          />
+          
+          <button className="addButton" onClick={handleAdd}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="addIcon">
+                      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+                  </svg>
+              
+          </button>
+      </div>
+
         <h1 className="tituloInventario">Inventario de Productos</h1>
         <h2 className="subtitulo">Buscar Producto</h2>
         <div className="busqueda-container">
@@ -37,6 +89,8 @@ const InventarioAdmin = () => {
                 className="input-busqueda"
             />
             <button className="boton-buscar" onClick={handleSearch}>Buscar</button>
+            {searchState ? <button className="boton-buscar" onClick={handleRestart}>Limpiar busqueda</button>:<></>}
+
         </div>
         <h2 className="subtitulo">Resultado</h2>
         <table className="tabla-resultados">
@@ -49,12 +103,12 @@ const InventarioAdmin = () => {
                 </tr>
             </thead>
             <tbody>
-                {resultados.map((producto) => (
-                <tr key={producto.id}>
-                    <td>{producto.nombre}</td>
-                    <td>{producto.id}</td>
-                    <td>${producto.precio.toLocaleString("es-ES", { useGrouping: true })}</td>
-                    <td>{producto.cantidad}</td>
+                {invenActual.map((producto) => (
+                <tr key={producto.idProducto}>
+                    <td>{producto.idProducto}</td>
+                    <td>{producto.nombreProducto}</td>
+                    <td>${producto.Precio.toLocaleString("es-ES", { useGrouping: true })}</td>
+                    <td>{producto.Cantidad}</td>
                 </tr>
                 ))}
             </tbody>
