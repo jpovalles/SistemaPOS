@@ -11,6 +11,7 @@ const Topbar = ({ paginaActual }) => {
     const handleLogout = () => {
         localStorage.removeItem("token");  // Elimina el token de autenticación
         localStorage.removeItem("rol");    // Elimina el rol del usuario
+        localStorage.removeItem("username");    // Elimina el usuario
         window.location.href = "/";   // Redirige al usuario al login
     };
     return (

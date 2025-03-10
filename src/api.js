@@ -71,6 +71,23 @@ export async function actualizarUsuario(user, usuario, clave, nombre, rol){
     return data;
 }
 
+
+// CRUD del inventario
+export async function obtenerInventario() {
+    const response = await fetch(`${API_URL}/inventario`);
+    return response.json();
+}
+
+export async function agregarProducto(nombreProducto, Precio, Cantidad){
+    const response = await fetch(`${API_URL}/inventario`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ nombreProducto, Precio, Cantidad}),
+    });
+    return response.json(); 
+}
+
+
 // Autenticación de usuarios
 export async function login(usuario, clave){
     const response = await fetch(`${API_URL}/login`, {

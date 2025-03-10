@@ -152,10 +152,34 @@ app.post("/login", async (req, res) => {
         }
 
         res.json({ message: "Login exitoso", token:true, rol:user.rol, nombre: user.nombre });
+
     } catch (error) {
         res.status(500).json({ message: "Error en el servidor", error });
     }
 });
+
+
+// Listar inventario
+app.get("/inventario", async (req, res) => {
+    try{
+        const result = await pool.query("SELECT * FROM inventario;");
+        res.json(result.rows);
+    }catch (e) {
+        res.status(500).json({error: e.message})
+    }
+})
+
+// Agregar producto al inventario
+app.post("/inventario", async (req, res) => {
+    const {nombreProducto, Precio, Cantidad} = req.body;
+    try{
+        const result = await pool.query(
+            `INSERT INTO inventario ("nombreProducto", "Precio", "Cantidad") VALUES ($1, $2, $3) RETURNING *`, [nombreProducto, Precio, Cantidad]);
+            res.json(result.rows[0]);
+        } catch(e){
+            res.status(500).json({error: e.message})
+        }
+    });
 
 //Agregar venta
 app.post("/venta", async (req, res) => {

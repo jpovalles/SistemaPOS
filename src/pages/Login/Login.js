@@ -78,7 +78,7 @@ function Login() {
                 setTimeout(() => navigate("/admin"), 1000);
             }else if(data.rol === 0){
                 setStatusColor("#58cf39");
-                setTimeout(() => navigate("/vendedor/registroClientes"), 1000);
+                setTimeout(() => navigate("/vendedor/"), 1000);
             }else{
                 setMensaje("Rol no reconocido");
                 setStatusColor("#ffcc00");

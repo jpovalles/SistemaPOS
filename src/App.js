@@ -12,6 +12,7 @@ import ClientesAdmin from "./pages/Clientes/ClientesAdmin"
 import ReporteVentas from "./pages/ReporteVentas/ReporteVentas";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound/NotFound";
+import VendedorView from "./pages/vendedor/VendedorView";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/admin/inventario" element={<InventarioAdmin/>} />
           <Route path="/admin/Clientes" element={<ClientesAdmin/>}/>
           <Route path="/admin/Reporte" element={<ReporteVentas/>}/>
+          <Route path="/vendedor/" element={<VendedorView/>} />
           <Route path="/vendedor/inventario" element={<InventarioVendedor/>} />
           <Route path="/vendedor/facturacion" element={<Facturacion/>} />
           <Route path="/vendedor/RegistroClientes" element={<Registrar/>}/> 
