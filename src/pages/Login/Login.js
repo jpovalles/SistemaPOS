@@ -70,8 +70,7 @@ function Login() {
         if (data.token) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("rol", data.rol);
-            localStorage.setItem("username", usuario);
-
+            localStorage.setItem("usuario_actual", data.nombre)
             setMensaje(data.message);
             
             if(data.rol === 1) {
