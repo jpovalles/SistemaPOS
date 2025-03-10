@@ -151,7 +151,7 @@ app.post("/login", async (req, res) => {
             return res.status(401).json({ message: "Contraseña incorrecta" });
         }
 
-        res.json({ message: "Login exitoso", token:true, rol:user.rol, nombre: user.nombre });
+        res.json({ message: "Login exitoso", token:true, rol:user.rol, nombre: user.nombre, username: user.usuario});
 
     } catch (error) {
         res.status(500).json({ message: "Error en el servidor", error });
@@ -180,6 +180,36 @@ app.post("/inventario", async (req, res) => {
             res.status(500).json({error: e.message})
         }
     });
+
+// Eliminar producto del inventario
+app.delete("/inventario/:idProducto", async (req, res) => {
+    try{
+        const { idProducto } = req.params;
+        await pool.query(`DELETE FROM "inventario" WHERE "idProducto" = ${idProducto}`);
+        res.json({succes: true, message: "Producto eliminado"})
+    } catch(e){
+        res.status(500).json({ success: false, message: "Error"});
+    }
+})
+
+// Actualizar producto del inventario
+app.put('/inventario/:idProducto', async(req, res) => {
+    try{
+        const { idProducto } = req.params;
+        const { nombre, precio, cantidad } = req.body;
+
+        await pool.query(
+            `UPDATE "inventario" SET "nombreProducto" = $2, "Cantidad" = $3, "Precio" = $4 WHERE "idProducto" = $1 RETURNING *`, [idProducto, nombre, cantidad, precio]);
+        
+        res.json({success: true, message: "Producto actualizado"})
+            
+    }catch(e){
+        res.status(500).json({success: false, message: "Error en la modificacion"})
+    }
+
+
+});
+
 
 //Agregar venta
 app.post("/venta", async (req, res) => {

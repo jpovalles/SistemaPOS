@@ -17,43 +17,6 @@ function Login() {
 
     const navigate = useNavigate();
 
-    /*
-    const authenticateUser = (user, password) => {
-        return data[user] && data[user].clave === password;
-    };
-
-    const handleLogin = (e) => {
-        e.preventDefault();
-        if (isBlocked) return;
-
-        const userField = document.querySelector('.user');
-        const passField = document.querySelector('.password');
-        const user = userField.value;
-        const password = passField.value;
-
-        if (authenticateUser(user, password)) {
-            setStatusColor("#58cf39");
-            setLoginStatus("Login Exitoso");
-            setTries(5);
-            setIsBlocked(false);
-            localStorage.setItem("username", user);
-            setTimeout(() => navigate("/admin"), 1000);
-        } else {
-            if (tries - 1 === 0) {
-                setIsBlocked(true);
-                setLoginStatus("");
-                userField.value = "";
-                passField.value = "";
-            } else {
-                setStatusColor("#ff5252");
-                setTries(tries - 1);
-                setLoginStatus(`Credenciales no válidas. Intentos restantes: ${tries - 1}`);
-                userField.value = "";
-                passField.value = "";
-            }
-        }
-    };*/
-
     useEffect(() => {
         localStorage.removeItem("token");  // Elimina el token de autenticación
         localStorage.removeItem("rol");    // Elimina el rol del usuario
@@ -71,6 +34,7 @@ function Login() {
             localStorage.setItem("token", data.token);
             localStorage.setItem("rol", data.rol);
             localStorage.setItem("usuario_actual", data.nombre)
+            localStorage.setItem("username", data.username)
             setMensaje(data.message);
             
             if(data.rol === 1) {

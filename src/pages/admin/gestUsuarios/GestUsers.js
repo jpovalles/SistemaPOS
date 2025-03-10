@@ -23,7 +23,12 @@ function GestUsers(){
     }, [])
 
     const handleDelete = async (user) => {
-        const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar este usuario?")    
+        const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar este usuario?")
+        const username = localStorage.getItem("username")
+        if(username === user){
+            alert("No puedes eliminar tu propio perfil")
+            return;
+        }
         if (confirmacion){
             console.log("eliminando a: ", user);
             await eliminarUsuario(user);

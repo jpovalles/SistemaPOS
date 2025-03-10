@@ -1,7 +1,7 @@
 import React, { useState, useEffect, use } from "react";
 import TopbarAdmin from "../../components/TopBarAdmin";
 import "./InventarioAdmin.css";
-import { obtenerInventario, agregarProducto } from "../../api";
+import { obtenerInventario, agregarProducto, actualizarProducto, eliminarProducto } from "../../api";
 
 const InventarioAdmin = () => {
   const [invenActual, setInvenActual] = useState([]);
@@ -10,6 +10,8 @@ const InventarioAdmin = () => {
   const [searchState, setSearchState] = useState(false);
   const [newItem, setNewItem] = useState({ nombreProducto: '',  Precio: '', Cantidad: '' });
   const [mensaje, setMensaje] = useState('')
+  const [editItem, setEditItem] = useState(null)
+  const [productoEdit, setProductoEdit] = useState([])
 
   const handleSearch = () => {
     const filtrados = inventario.filter(
@@ -47,10 +49,36 @@ const InventarioAdmin = () => {
       cargarInventario();
     }, [inventario]);
 
+    const editarProducto = (producto) => {
+      setEditItem(producto.idProducto)
+      setProductoEdit(producto);
+    }
+
+    const manejarEliminar = async (idProducto) => {
+      const confirmacion = window.confirm("¿Estás seguro de que deseas eliminar el producto?");
+      if (confirmacion){
+        await eliminarProducto(idProducto);
+        const data = await obtenerInventario();
+        setInventario(data)
+      }
+    }
+
+    const guardarEdicion = async () => {
+      const resp = await actualizarProducto(editItem, productoEdit.nombreProducto, productoEdit.Precio, productoEdit.Cantidad)
+      if(resp.success){
+        setInventario([...inventario])
+        setEditItem(null)
+      }else{
+        alert(resp.message || "Error al actualizar")
+      }
+    }
+
   return (
     <div className="inventario-container">
         <TopbarAdmin paginaActualAdmin="inventarioAdmin"/>
 
+        <h1 className="tituloInventario">Inventario de Productos</h1>
+        <h2 className="subtitulo">Agregar producto</h2>
         <div className='addProduct'>
           <input
               placeholder="Nombre producto"
@@ -76,9 +104,7 @@ const InventarioAdmin = () => {
                   </svg>
               
           </button>
-      </div>
-
-        <h1 className="tituloInventario">Inventario de Productos</h1>
+        </div>
         <h2 className="subtitulo">Buscar Producto</h2>
         <div className="busqueda-container">
             <input
@@ -96,8 +122,8 @@ const InventarioAdmin = () => {
         <table className="tabla-resultados">
             <thead>
                 <tr>
-                <th>Nombre</th>
                 <th>Id producto</th>
+                <th>Nombre</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
                 </tr>
@@ -105,10 +131,29 @@ const InventarioAdmin = () => {
             <tbody>
                 {invenActual.map((producto) => (
                 <tr key={producto.idProducto}>
-                    <td>{producto.idProducto}</td>
-                    <td>{producto.nombreProducto}</td>
-                    <td>${producto.Precio.toLocaleString("es-ES", { useGrouping: true })}</td>
-                    <td>{producto.Cantidad}</td>
+                  {editItem === producto.idProducto ? (
+                      <>
+                        <td>{producto.idProducto}</td>
+                        <td><input value={productoEdit.nombreProducto} onChange={(e) => setProductoEdit({ ...productoEdit, nombreProducto: e.target.value })} required/></td>
+                        <td><input value={productoEdit.Precio} type="number" onChange={(e) => setProductoEdit({ ...productoEdit, Precio: e.target.value })} required/></td>
+                        <td><input value={productoEdit.Cantidad} type="number" onChange={(e) => setProductoEdit({ ...productoEdit, Cantidad: e.target.value })} required/></td>
+                        <td>
+                          <button onClick={guardarEdicion} className="btn save">Guardar</button>
+                        </td>
+                      </>
+                  ) : (
+                      <>
+                        <td>{producto.idProducto}</td>
+                        <td>{producto.nombreProducto}</td>
+                        <td>${producto.Precio.toLocaleString("es-ES", { useGrouping: true })}</td>
+                        <td>{producto.Cantidad}</td>
+                        <td className="btn">
+                          <button onClick={() => editarProducto(producto)} className="btn edit">Editar</button>
+                          <button onClick={() => manejarEliminar(producto.idProducto)} className="btn delete">Eliminar</button>
+                        </td>
+                      </>
+                  )}
+                    
                 </tr>
                 ))}
             </tbody>

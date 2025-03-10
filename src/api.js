@@ -73,11 +73,13 @@ export async function actualizarUsuario(user, usuario, clave, nombre, rol){
 
 
 // CRUD del inventario
+// Leer inventario
 export async function obtenerInventario() {
     const response = await fetch(`${API_URL}/inventario`);
     return response.json();
 }
 
+// Agregar producto al inventario
 export async function agregarProducto(nombreProducto, Precio, Cantidad){
     const response = await fetch(`${API_URL}/inventario`, {
         method: "POST",
@@ -85,6 +87,27 @@ export async function agregarProducto(nombreProducto, Precio, Cantidad){
         body: JSON.stringify({ nombreProducto, Precio, Cantidad}),
     });
     return response.json(); 
+}
+
+// Eliminar producto del inventario
+export async function eliminarProducto(idProducto) {
+    const response = await fetch(`${API_URL}/inventario/${idProducto}`, {
+        method: "DELETE",
+    });
+    const data = await response.json();
+    return data;
+}
+
+// Actualizar un producto
+export async function actualizarProducto(idProducto, nombre, precio, cantidad){
+    const response = await fetch(`${API_URL}/inventario/${idProducto}`, {
+        method: "PUT", 
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ nombre, precio, cantidad}),
+    });
+
+    const data = await response.json();
+    return data;
 }
 
 
