@@ -99,11 +99,11 @@ export async function login(usuario, clave){
 }
 
 //agregar venta al historial
-export async function agregarVenta(vendedor, cliente, total, metodo){
+export async function agregarVenta(fecha, vendedor, cliente, total, metodo){
     const response = await fetch(`${API_URL}/venta`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({vendedor, cliente, total, metodo}),
+        body: JSON.stringify({fecha, vendedor, cliente, total, metodo}),
     });
     return response.json(); 
 }

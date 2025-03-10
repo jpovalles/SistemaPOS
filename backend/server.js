@@ -183,16 +183,15 @@ app.post("/inventario", async (req, res) => {
 
 //Agregar venta
 app.post("/venta", async (req, res) => {
-    const {vendedor, cliente, total, metodo} = req.body;
+    const {fecha, vendedor, cliente, total, metodo} = req.body;
     try{
         const result = await pool.query(
-            "INSERT INTO  historial_ventas (vendedor, cliente, total, metodo) VALUES ($1, $2, $3, $4) RETURNING *", [vendedor, cliente, total, metodo]);
-            res.json(result.rows[0]);
-        } catch(e){
-            res.status(500).json({error: e.message})
-        }
-    });
-
+            "INSERT INTO  historial_ventas (fecha, vendedor, cliente, total, metodo) VALUES ($1, $2, $3, $4, $5) RETURNING *", [fecha, vendedor, cliente, total, metodo]);
+        res.json(result.rows[0]);
+    } catch(e){
+        res.status(500).json({error: e.message})
+    }
+});
 
 //listar historial
 app.get("/ventas", async(req, res) => {

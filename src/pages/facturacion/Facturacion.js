@@ -25,13 +25,15 @@ const Facturacion = () => {
   const [metodoPago, setMetodoPago] = useState(null);
   const [montoEfectivo, setMontoEfectivo] = useState("");
 
+  const fechaActual = new Date().toISOString().split("T")[0];
+
   const finalizarCompra = () => {
     if (productos.length > 0) {
       const total = calcularTotal(productos);
       const vendedor = localStorage.getItem("usuario_actual");
       console.log(vendedor)
       setCompraFinalizada(true);
-      agregarVenta(vendedor, cliente, total, metodoPago);
+      agregarVenta(fechaActual, vendedor, cliente, total, metodoPago);
       setProductos([]);
       localStorage.removeItem("productos"); // Limpiar localStorage
       setMetodoPago(null);
