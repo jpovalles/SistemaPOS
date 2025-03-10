@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ReporteVentas.css";
 import TopbarAdmin from "../../components/TopBarAdmin";
-
-const ventas = [
-  { id: "0001", fecha: "2025-03-02", vendedor: "Juan", cliente: "Ana", total: 77000, metodo: "Efectivo" },
-  { id: "0002", fecha: "2025-02-27", vendedor: "Alberto", cliente: "Oscar", total: 60000, metodo: "Tarjeta" },
-  { id: "0003", fecha: "2025-02-28", vendedor: "Lopez", cliente: "Ramiro", total: 32000, metodo: "Efectivo" },
-];
+import { obtenerVentas } from "../../api";
 
 function ReporteVentas() {
+    const [ventas, setVentas] = useState([]);
     const [filtros, setFiltros] = useState({ fechaInicio: "", fechaFin: "", vendedor: "", cliente: "" });
     const [busquedaId, setBusquedaId] = useState("");
     const [ventasFiltradas, setVentasFiltradas] = useState(ventas);
+
+    const formatoFecha = (fechaISO) => {
+        const fecha = new Date(fechaISO);
+        return fecha.toLocaleDateString("es-ES")
+    }
+
+    useEffect(() => {
+        async function cargarVentas(){
+            const data = await obtenerVentas();
+            console.log(data)
+            setVentas(data);
+            setVentasFiltradas(data);
+        }
+        cargarVentas();
+    }, []);
 
     const filtrarVentas = () => {
         const resultado = ventas.filter((venta) => {
@@ -28,7 +39,7 @@ function ReporteVentas() {
     // Buscar ventas por ID, vendedor o cliente
     const buscarVenta = () => {
         const resultado = ventas.filter((venta) =>
-            venta.id.includes(busquedaId) ||
+            venta.factura.includes(busquedaId) ||
             venta.vendedor.toLowerCase().includes(busquedaId.toLowerCase()) ||
             venta.cliente.toLowerCase().includes(busquedaId.toLowerCase())
         );
@@ -36,7 +47,7 @@ function ReporteVentas() {
     };
 
     const totalFacturas = ventasFiltradas.length;
-    const totalVentas = ventasFiltradas.reduce((acum, venta) => acum + venta.total, 0);
+    const totalVentas = ventasFiltradas.reduce((acum, venta) => acum + Number(venta.total), 0);
 
     return (
         <div className="contenedor-reporteVentas">
@@ -75,9 +86,9 @@ function ReporteVentas() {
                 <tbody>
                     {ventasFiltradas.length > 0 ? (
                         ventasFiltradas.map((venta) => (
-                            <tr key={venta.id}>
-                                <td>{venta.id}</td>
-                                <td>{venta.fecha}</td>
+                            <tr key={venta.factura}>
+                                <td>{venta.factura}</td>
+                                <td>{formatoFecha(venta.fecha)}</td>
                                 <td>{venta.vendedor}</td>
                                 <td>{venta.cliente}</td>
                                 <td>{venta.total.toLocaleString()}</td>

@@ -80,3 +80,24 @@ export async function login(usuario, clave){
     });
     return response.json();
 }
+
+//agregar venta al historial
+export async function agregarVenta(vendedor, cliente, total, metodo){
+    const response = await fetch(`${API_URL}/venta`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({vendedor, cliente, total, metodo}),
+    });
+    return response.json(); 
+}
+
+export async function obtenerVentas() {
+    const response = await fetch(`${API_URL}/ventas`);
+    return response.json();
+}
+
+export async function obtenerDoc(documento){
+    const response = await fetch(`${API_URL}/buscarcliente/${documento}`);
+    const data = await response.json();
+    return data;
+}

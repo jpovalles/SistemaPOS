@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import "./ResumenCompra.css";
 
-const ResumenCompra = ({ productos, metodoPago, setMetodoPago, montoEfectivo, setMontoEfectivo }) => {
+export const calcularTotal = (productos) => productos.reduce(
+    (acum, producto) => acum + producto.precio * producto.cantidad,
+    0
+  );
+
+export const ResumenCompra = ({ productos, metodoPago, setMetodoPago, montoEfectivo, setMontoEfectivo }) => {
   const [mensajePago, setMensajePago] = useState(""); // Estado para el mensaje de pago
 
   const handlePagoTarjeta = () => {
     if (productos.length > 0) {
       setMensajePago(""); // Limpiar mensaje anterior
       setMetodoPago("tarjeta");
-
       setTimeout(() => {
         const exito = Math.random() < 0.5; // 50% de probabilidad de éxito
         setMensajePago(exito ? "Transacción realizada con éxito." : "No se leyó bien la tarjeta, intente nuevamente.");
@@ -24,10 +28,7 @@ const ResumenCompra = ({ productos, metodoPago, setMetodoPago, montoEfectivo, se
     }
   };
 
-  const total = productos.reduce(
-    (acum, producto) => acum + producto.precio * producto.cantidad,
-    0
-  );
+  const total = calcularTotal(productos);
 
   const descuento = 0;
   const devolucion = montoEfectivo !== "" ? Math.max(Number(montoEfectivo) - total, 0) : "";
@@ -97,5 +98,3 @@ const ResumenCompra = ({ productos, metodoPago, setMetodoPago, montoEfectivo, se
     </div>
   );
 };
-
-export default ResumenCompra;

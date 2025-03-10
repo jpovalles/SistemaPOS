@@ -97,7 +97,6 @@ app.post("/usuarios", async (req, res) => {
     }
 });
 
-
 //Eliminar usuario
 app.delete("/usuarios/:usuario", async (req, res) => {
     try{
@@ -152,11 +151,51 @@ app.post("/login", async (req, res) => {
             return res.status(401).json({ message: "Contraseña incorrecta" });
         }
 
-        res.json({ message: "Login exitoso", token:true, rol:user.rol });
+        res.json({ message: "Login exitoso", token:true, rol:user.rol, nombre: user.nombre });
     } catch (error) {
         res.status(500).json({ message: "Error en el servidor", error });
     }
 });
+
+//Agregar venta
+app.post("/venta", async (req, res) => {
+    const {vendedor, cliente, total, metodo} = req.body;
+    try{
+        const result = await pool.query(
+            "INSERT INTO  historial_ventas (vendedor, cliente, total, metodo) VALUES ($1, $2, $3, $4) RETURNING *", [vendedor, cliente, total, metodo]);
+        res.json(result.rows[0]);
+    } catch(e){
+        res.status(500).json({error: e.message})
+    }
+});
+
+//listar historial
+app.get("/ventas", async(req, res) => {
+    try{
+        const result = await pool.query(
+            "SELECT factura, fecha, vendedor, cliente, total::numeric, metodo FROM historial_ventas");
+        res.json(result.rows);
+    }catch (e) {
+        res.status(500).json({error: e.message})
+    }
+})
+
+//filtrar cliente
+app.get("/buscarcliente/:documento", async(req, res) => {
+    try{
+        const {documento} = req.params;
+        const resultado = await pool.query("SELECT documento FROM clientes WHERE documento = $1", [documento]);
+        if (resultado.rows.length > 0) {
+            res.json({ existe: true, cliente: resultado.rows[0] });
+        } else {
+            res.json({ existe: false, mensaje: "Venta no encontrada" });
+        }
+    }catch(e){
+        console.error("Error al buscar la venta:", error);
+        res.status(500).json({ error: "Error en el servidor" });
+    }
+})
+
 
 pool.connect()
     .then(() => console.log("✅ Conexión exitosa con PostgreSQL"))

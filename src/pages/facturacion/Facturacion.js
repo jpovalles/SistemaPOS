@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import Topbar from "../../components/TopBar";
 import ListaProductos from "../../components/ListaProductos";
-import ResumenCompra from "../../components/ResumenCompra";
+import {ResumenCompra, calcularTotal} from "../../components/ResumenCompra";
 import RegistrarProducto from "../../components/RegistrarProducto";
 import ProductContext from "../../context/ProductContext";
-import DocumentoCliente from "../../components/DocumentoCliente";
+import {DocumentoCliente} from "../../components/DocumentoCliente";
 import "./Facturacion.css";
+import { agregarVenta, obtenerDoc } from "../../api";
 
 const productosDisponibles = [
   { codigo: "001", nombre: "Arroz", precio: 10000 },
@@ -20,19 +21,21 @@ const Facturacion = () => {
   const [compraFinalizada, setCompraFinalizada] = useState(false);
   const [mensajeError, setMensajeError] = useState("");
   const [facturaCancelada, setFacturaCancelada] = useState(false);
-
+  const [cliente, setCliente] = useState("")
   const [metodoPago, setMetodoPago] = useState(null);
   const [montoEfectivo, setMontoEfectivo] = useState("");
 
   const finalizarCompra = () => {
     if (productos.length > 0) {
+      const total = calcularTotal(productos);
+      const vendedor = localStorage.getItem("usuario_actual");
+      console.log(vendedor)
       setCompraFinalizada(true);
+      agregarVenta(vendedor, cliente, total, metodoPago);
       setProductos([]);
       localStorage.removeItem("productos"); // Limpiar localStorage
-      
       setMetodoPago(null);
       setMontoEfectivo("");
-
       setTimeout(() => {
         setCompraFinalizada(false);
       }, 3000);
@@ -46,13 +49,19 @@ const Facturacion = () => {
         setFacturaCancelada(true);
         setProductos([]);
         localStorage.removeItem("productos"); // Limpiar localStorage
-
         setTimeout(() => {
           setFacturaCancelada(false);
         }, 3000);
       }
     }
   };
+
+  const establecerCliente = async (doc) => {
+    const result = await obtenerDoc(doc);
+    if (result.existe){
+      setCliente(result.cliente.documento);
+    }
+  }
 
   const agregarProducto = (codigo) => {
     const productoEncontrado = productosDisponibles.find((p) => p.codigo === codigo);
@@ -124,7 +133,7 @@ const Facturacion = () => {
             setMontoEfectivo={setMontoEfectivo}
           />
           <div className="documento-section">
-            <DocumentoCliente />
+            <DocumentoCliente agregarCliente={establecerCliente}/>
           </div>
         </div>
       </div>
