@@ -6,7 +6,7 @@ import { obtenerVentas } from "../../api";
 function ReporteVentas() {
     const [ventas, setVentas] = useState([]);
     const [filtros, setFiltros] = useState({ fechaInicio: "", fechaFin: "", vendedor: "", cliente: "" });
-    const [busquedaId, setBusquedaId] = useState("");
+    const [busquedaId, setBusquedaId] = useState();
     const [ventasFiltradas, setVentasFiltradas] = useState(ventas);
 
     const formatoFecha = (fechaISO) => {
@@ -39,9 +39,7 @@ function ReporteVentas() {
     // Buscar ventas por ID, vendedor o cliente
     const buscarVenta = () => {
         const resultado = ventas.filter((venta) =>
-            venta.factura.includes(busquedaId) ||
-            venta.vendedor.toLowerCase().includes(busquedaId.toLowerCase()) ||
-            venta.cliente.toLowerCase().includes(busquedaId.toLowerCase())
+            Number(venta.factura) === Number(busquedaId),
         );
         setVentasFiltradas(resultado);
     };
@@ -68,7 +66,7 @@ function ReporteVentas() {
             </div>
 
             <div className="busqueda-reporteVentas">
-                <input className="input-reporteVentas" type="text" placeholder="Buscar por ID de Factura" onChange={(e) => setBusquedaId(e.target.value)} />
+                <input className="input-reporteVentas" type="number" placeholder="Buscar por ID de Factura" onChange={(e) => setBusquedaId(e.target.value)} />
                 <button className="btn-secundario" onClick={buscarVenta}>Buscar</button>
             </div>
 
