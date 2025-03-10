@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import TopbarAdmin from "../../components/TopBarAdmin";
 import "./InventarioAdmin.css";
 import { obtenerInventario, agregarProducto, actualizarProducto, eliminarProducto } from "../../api";
@@ -34,7 +34,7 @@ const InventarioAdmin = () => {
           console.log(newItem)
           const nuevoProducto = await agregarProducto(newItem.nombreProducto, newItem.Precio, newItem.Cantidad);
           setInventario([...inventario, nuevoProducto]);
-          setInvenActual([...inventario]);
+          setInvenActual([...inventario, nuevoProducto]);
           setNewItem({nombreProducto: '',  Precio: '', Cantidad: '' });
           setMensaje("Se registró correctamente el producto");
           setTimeout(() => setMensaje(""), 4000);
@@ -47,7 +47,7 @@ const InventarioAdmin = () => {
         setInvenActual(data);
       }
       cargarInventario();
-    }, [inventario]);
+    }, []);
 
     const editarProducto = (producto) => {
       setEditItem(producto.idProducto)
@@ -60,13 +60,16 @@ const InventarioAdmin = () => {
         await eliminarProducto(idProducto);
         const data = await obtenerInventario();
         setInventario(data)
+        setInvenActual(data)
       }
     }
 
     const guardarEdicion = async () => {
       const resp = await actualizarProducto(editItem, productoEdit.nombreProducto, productoEdit.Precio, productoEdit.Cantidad)
+      const data = await obtenerInventario();
       if(resp.success){
-        setInventario([...inventario])
+        setInventario(data)
+        setInvenActual(data)
         setEditItem(null)
       }else{
         alert(resp.message || "Error al actualizar")
@@ -126,6 +129,7 @@ const InventarioAdmin = () => {
                 <th>Nombre</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
+                <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>

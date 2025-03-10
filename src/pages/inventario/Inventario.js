@@ -1,27 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Topbar from "../../components/TopBar";
 import "./Inventario.css";
+import {obtenerInventario} from '../../api'
 
-const productosDisponibles = [
-  { id: "001", nombre: "Arroz", precio: 10000, cantidad: 20 },
-  { id: "002", nombre: "Salsa de Tomate", precio: 6000, cantidad: 15 },
-  { id: "003", nombre: "Pollo", precio: 20000, cantidad: 10 },
-  { id: "004", nombre: "Carne", precio: 26000, cantidad: 8 },
-  { id: "005", nombre: "Frijoles", precio: 8000, cantidad: 25 },
-];
 
 const Inventario = () => {
+  const [invenActual, setInvenActual] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const [resultados, setResultados] = useState([]);
+  const [inventario, setInventario] = useState([]);
+  const [searchState, setSearchState] = useState(false);
+  
 
   const handleSearch = () => {
-    const filtrados = productosDisponibles.filter(
+    const filtrados = inventario.filter(
       (producto) =>
-        producto.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-        producto.id.includes(busqueda)
+        producto.nombreProducto.toLowerCase().includes(busqueda.toLowerCase()) ||
+        producto.idProducto.toString().includes(busqueda)
     );
-    setResultados(filtrados);
+    setInvenActual(filtrados);
+    setSearchState(true);
   };
+
+  useEffect(() => {
+      async function cargarInventario(){
+        const data = await obtenerInventario();
+        setInventario(data);
+        setInvenActual(data);
+      }
+      cargarInventario();
+    }, []);
+
+    const handleRestart = () => {
+      setInvenActual(inventario);
+      setSearchState(false);
+      setBusqueda("");
+    }
 
   return (
     <div className="inventario-container">
@@ -37,6 +50,7 @@ const Inventario = () => {
                 className="input-busqueda"
             />
             <button className="boton-buscar" onClick={handleSearch}>Buscar</button>
+            {searchState ? <button className="boton-buscar" onClick={handleRestart}>Limpiar busqueda</button>:<></>}
         </div>
         <h2 className="subtitulo">Resultado</h2>
         <table className="tabla-resultados">
@@ -49,12 +63,12 @@ const Inventario = () => {
                 </tr>
             </thead>
             <tbody>
-                {resultados.map((producto) => (
+                {invenActual.map((producto) => (
                 <tr key={producto.id}>
-                    <td>{producto.nombre}</td>
-                    <td>{producto.id}</td>
-                    <td>${producto.precio.toLocaleString("es-ES", { useGrouping: true })}</td>
-                    <td>{producto.cantidad}</td>
+                  <td>{producto.idProducto}</td>
+                  <td>{producto.nombreProducto}</td>
+                  <td>${producto.Precio.toLocaleString("es-ES", { useGrouping: true })}</td>
+                  <td>{producto.Cantidad}</td>
                 </tr>
                 ))}
             </tbody>
