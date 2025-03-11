@@ -14,11 +14,15 @@ const InventarioAdmin = () => {
   const [productoEdit, setProductoEdit] = useState([])
 
   const handleSearch = () => {
-    const filtrados = inventario.filter(
-      (producto) =>
-        producto.nombreProducto.toLowerCase().includes(busqueda.toLowerCase()) ||
-        producto.idProducto.toString().includes(busqueda)
-    );
+    const filtrados = inventario.filter((producto) => {
+      if (!isNaN(busqueda) && busqueda.trim() !== "") {
+        // Si la búsqueda es un número, hacer una comparación exacta con el ID
+        return producto.idProducto.toString() === busqueda.trim();
+      }
+      // Si la búsqueda es una cadena, aplicar búsqueda parcial en nombre
+      return producto.nombreProducto.toLowerCase().includes(busqueda.toLowerCase());
+    });
+  
     setInvenActual(filtrados);
     setSearchState(true);
   };

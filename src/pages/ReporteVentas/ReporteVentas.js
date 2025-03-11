@@ -50,12 +50,15 @@ function ReporteVentas() {
     return (
         <div className="contenedor-reporteVentas">
             <TopbarAdmin paginaActualAdmin="reporte"/>
+            <div>
+                <button className="btn-exportar">Exportar</button>
+            </div>
             <h2 className="titulo-reporteVentas">Historial de Ventas</h2>
             <div>
                 <label className="sub-inicio">Fecha Inicio</label>
                 <label className="sub-final">Fecha Final</label>
                 <label className="sub-vendedor">Nombre del Vendedor</label>
-                <label className="sub-cliente">Nombre del Cliente</label>
+                <label className="sub-cliente">Documento del Cliente</label>
             </div>
             <div className="filtros-container">
                 <input className="input-reporteVentas" type="date" onChange={(e) => setFiltros({ ...filtros, fechaInicio: e.target.value })} />

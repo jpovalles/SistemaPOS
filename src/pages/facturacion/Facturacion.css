@@ -121,4 +121,34 @@
   margin-top: 6px;
 }
 
+.encontrado{
+  background-color: #d4edda;
+  padding: 0.3%;
+  position: absolute;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  font-weight: bold;
+  top: -65px;
+  right: -120px;
+  margin-left: 80px;
+}
+
+.noEncontrado{
+  background-color: #ffcccc;
+  border: 1px solid #ffcccc;
+  padding: 0.3%;
+  position: absolute;
+  border-radius: 5px;
+  text-align: center;
+  color: #cc0000;
+  font-weight: bold;
+  top: -65px;
+  right: -120px;
+  margin-left: 80px;
+
+}
+
+
 

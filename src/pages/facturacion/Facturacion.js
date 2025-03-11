@@ -24,6 +24,9 @@ const Facturacion = () => {
   const [cliente, setCliente] = useState("")
   const [metodoPago, setMetodoPago] = useState(null);
   const [montoEfectivo, setMontoEfectivo] = useState("");
+  const [mensajeDoc, setMensajeDoc] = useState(""); 
+  const [tipoMensaje, setTipoMensaje] = useState("");
+
 
   const fechaActual = new Date().toISOString().split("T")[0];
 
@@ -53,17 +56,31 @@ const Facturacion = () => {
         localStorage.removeItem("productos"); // Limpiar localStorage
         setTimeout(() => {
           setFacturaCancelada(false);
-        }, 3000);
+        }, 2000);
       }
     }
   };
 
+
   const establecerCliente = async (doc) => {
     const result = await obtenerDoc(doc);
-    if (result.existe){
+
+    if (result.existe) {
       setCliente(result.cliente.documento);
+      setMensajeDoc("Cliente encontrado.");
+      setTipoMensaje("encontrado");
+    } else {
+      setCliente(""); 
+      setMensajeDoc("Cliente no encontrado.");
+      setTipoMensaje("noEncontrado");
     }
-  }
+
+    setTimeout(() => {
+      setMensajeDoc("");
+      setTipoMensaje("");
+    }, 2000);
+  };
+
 
   const agregarProducto = (codigo) => {
     const productoEncontrado = productosDisponibles.find((p) => p.codigo === codigo);
@@ -135,7 +152,9 @@ const Facturacion = () => {
             setMontoEfectivo={setMontoEfectivo}
           />
           <div className="documento-section">
+            {mensajeDoc && <p className={tipoMensaje}>{mensajeDoc}</p>}
             <DocumentoCliente agregarCliente={establecerCliente}/>
+
           </div>
         </div>
       </div>
