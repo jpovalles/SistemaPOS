@@ -82,14 +82,12 @@
 
 .cash-payment-container {
   min-height: 100px;
-  position: absolute;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: -27vh;
+  margin-left: 55vh;
   margin-top: -45vh;
-  width: 100%;
 }
 
 .cash-payment {
