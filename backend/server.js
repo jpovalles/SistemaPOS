@@ -10,13 +10,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const resend = new Resend('re_BFmkL5jV_GSqNUAUuBy5hABqWWquUpryH')
+const resend = new Resend('re_7m6rBT6w_8VW6kapb9txjE9i36wsFWzz1')
 
 app.post('/enviar-mail', async (req, res) =>{
     try {
         const { to, subject, html } = req.body;
         const response = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'noreply@onresend.com',
             to,
             subject,
             html

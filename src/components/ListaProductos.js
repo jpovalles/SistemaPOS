@@ -14,7 +14,7 @@ const ListaProductos = ({ productos, eliminarProducto, modificarCantidad }) => {
               <span className="quantity">{producto.cantidad}</span>
               <button className="btn-control" onClick={() => modificarCantidad(index, 1)}> + </button>
             </div>
-            <button className="btn-delete" onClick={() => eliminarProducto(index)}>❌</button>
+            <button className="btn-delete-productos" onClick={() => eliminarProducto(index)}>❌</button>
           </li>
         ))}
       </ul>

@@ -20,6 +20,9 @@ const Facturacion = () => {
   const [cliente, setCliente] = useState("")
   const [metodoPago, setMetodoPago] = useState(null);
   const [montoEfectivo, setMontoEfectivo] = useState("");
+  const [mensajeDoc, setMensajeDoc] = useState(""); 
+  const [tipoMensaje, setTipoMensaje] = useState("");
+
 
   const fechaActual = new Date().toISOString().split("T")[0];
   
@@ -119,21 +122,37 @@ const Facturacion = () => {
         localStorage.removeItem("productos"); // Limpiar localStorage
         setTimeout(() => {
           setFacturaCancelada(false);
-        }, 3000);
+        }, 2000);
       }
     }
   };
+
 
   const discardClient = () => {
     setCliente("");
   }
 
+
+
   const establecerCliente = async (doc) => {
     const result = await obtenerDoc(doc);
-    if (result.existe){
+
+    if (result.existe) {
       setCliente(result.cliente);
+      setMensajeDoc("Cliente encontrado.");
+      setTipoMensaje("encontrado");
+    } else {
+      setCliente(""); 
+      setMensajeDoc("Cliente no encontrado.");
+      setTipoMensaje("noEncontrado");
     }
-  }
+
+    setTimeout(() => {
+      setMensajeDoc("");
+      setTipoMensaje("");
+    }, 1000);
+  };
+
 
   const agregarProducto = async (codigo) => {
     const productoEncontrado = await obtenerProducto(codigo);
@@ -232,5 +251,4 @@ const Facturacion = () => {
 };
 
 export default Facturacion;
-
 
