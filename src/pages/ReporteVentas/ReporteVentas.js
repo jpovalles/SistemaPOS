@@ -44,6 +44,23 @@ function ReporteVentas() {
         setVentasFiltradas(resultado);
     };
 
+    const exportar = (ventas, nombre_doc) => {
+        if (ventas.length > 0){
+            const encabezados = Object.keys(ventas[0]);
+            const filas = ventas.map(obj => Object.values(obj));
+            const contenido = [encabezados, ...filas].map(fila => fila.join(",")).join("\n");
+            const blob = new Blob([contenido], { type: "text/csv"});
+            const enlace = document.createElement("a");
+
+            enlace.href = URL.createObjectURL(blob);
+            enlace.download = nombre_doc || "Reporte.csv";
+
+            document.body.appendChild(enlace);
+            enlace.click();
+            document.body.removeChild(enlace);
+        }
+    }
+
     const totalFacturas = ventasFiltradas.length;
     const totalVentas = ventasFiltradas.reduce((acum, venta) => acum + Number(venta.total), 0);
 
@@ -51,7 +68,7 @@ function ReporteVentas() {
         <div className="contenedor-reporteVentas">
             <TopbarAdmin paginaActualAdmin="reporte"/>
             <div>
-                <button className="btn-exportar">Exportar</button>
+                <button className="btn-exportar" onClick={() => exportar(ventasFiltradas, "Reporte")}>Exportar</button>
             </div>
             <h2 className="titulo-reporteVentas">Historial de Ventas</h2>
             <div>
