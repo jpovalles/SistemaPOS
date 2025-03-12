@@ -10,14 +10,14 @@ export const DocumentoCliente = ({agregarCliente}) => {
 
 return (
   <div className="register-container">
-    <h2>Documento Del Cliente</h2>
-    <input
-      type="number"
-      value={cliente}
-      onChange={(e) => setCliente(e.target.value)}
-      placeholder="Ingrese el Documento"
-    />
-    <button onClick={manejarAgregar}>Buscar</button>
+      <h2>Documento Del Cliente</h2>
+      <input
+        type="number"
+        value={cliente}
+        onChange={(e) => setCliente(e.target.value)}
+        placeholder="Ingrese el Documento"
+      />
+      <button onClick={manejarAgregar}>Buscar</button>
   </div>
 );
 };

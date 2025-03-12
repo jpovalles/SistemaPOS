@@ -6,17 +6,13 @@ import RegistrarProducto from "../../components/RegistrarProducto";
 import ProductContext from "../../context/ProductContext";
 import {DocumentoCliente} from "../../components/DocumentoCliente";
 import "./Facturacion.css";
-import { agregarVenta, obtenerDoc } from "../../api";
+import { agregarVenta, obtenerDoc, obtenerProducto, actualizarInventario, sendMail } from "../../api";
 
-const productosDisponibles = [
-  { codigo: "001", nombre: "Arroz", precio: 10000 },
-  { codigo: "002", nombre: "Salsa De tomate", precio: 6000 },
-  { codigo: "003", nombre: "Pollo", precio: 20000 },
-  { codigo: "004", nombre: "Carne", precio: 26000 },
-  { codigo: "005", nombre: "Frijoles", precio: 8000 },
-];
 
 const Facturacion = () => {
+
+  const subject = 'Generacion de factura'
+
   const { productos, setProductos } = useContext(ProductContext);
   const [compraFinalizada, setCompraFinalizada] = useState(false);
   const [mensajeError, setMensajeError] = useState("");
@@ -26,23 +22,93 @@ const Facturacion = () => {
   const [montoEfectivo, setMontoEfectivo] = useState("");
 
   const fechaActual = new Date().toISOString().split("T")[0];
+  
+  const generarInformeVenta = (fechaActual, vendedor, documentoCliente, totalVenta, metodoPago, productos) =>{
+    console.log(productos)
+    let tablaHTML = `
+        <h2>Informe de Venta</h2>
+        <p><strong>Fecha:</strong> ${fechaActual}</p>
+        <p><strong>Vendedor:</strong> ${vendedor}</p>
+        <p><strong>Cliente:</strong> ${documentoCliente || "N/A"}</p>
+        <p><strong>Método de Pago:</strong> ${metodoPago || "No especificado"}</p>
 
-  const finalizarCompra = () => {
-    if (productos.length > 0) {
-      const total = calcularTotal(productos);
-      const vendedor = localStorage.getItem("usuario_actual");
-      console.log(vendedor)
-      setCompraFinalizada(true);
-      agregarVenta(fechaActual, vendedor, cliente, total, metodoPago);
-      setProductos([]);
-      localStorage.removeItem("productos"); // Limpiar localStorage
-      setMetodoPago(null);
-      setMontoEfectivo("");
-      setTimeout(() => {
-        setCompraFinalizada(false);
-      }, 3000);
+        <table border="1" style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding: 10px; background-color: #4CAF50; color: white;">Producto</th>
+                    <th style="padding: 10px; background-color: #4CAF50; color: white;">Precio Unitario ($)</th>
+                    <th style="padding: 10px; background-color: #4CAF50; color: white;">Cantidad</th>
+                    <th style="padding: 10px; background-color: #4CAF50; color: white;">Total ($)</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+    productos.forEach(producto => {
+        const totalProducto = producto.precio * producto.cantidad;
+        tablaHTML += `
+            <tr>
+                <td style="padding: 10px; text-align: center;">${producto.nombre}</td>
+                <td style="padding: 10px; text-align: center;">${producto.precio.toLocaleString()}</td>
+                <td style="padding: 10px; text-align: center;">${producto.cantidad}</td>
+                <td style="padding: 10px; text-align: center;">${totalProducto.toLocaleString()}</td>
+            </tr>`;
+    });
+
+    tablaHTML += `
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="padding: 10px; font-weight: bold; text-align: right;">Total Venta:</td>
+                    <td style="padding: 10px; font-weight: bold; text-align: center;">${totalVenta.toLocaleString()}</td>
+                </tr>
+            </tfoot>
+        </table>`;
+
+    return tablaHTML;
+  }
+
+  const finalizarCompra = async () => {
+    if (productos.length > 0 && metodoPago !== null) {
+        const total = calcularTotal(productos);
+        const vendedor = localStorage.getItem("usuario_actual");
+
+        // Actualizar inventario en la BD
+        const productosVenta = productos.map((producto) => ({
+            codigo: producto.idProducto, 
+            cantidad: producto.cantidad,
+            nombre: producto.nombre
+        }));
+
+        const respuesta = await actualizarInventario(productosVenta);
+
+        if (respuesta.success) {
+            console.log("Inventario actualizado correctamente");
+            await agregarVenta(fechaActual, vendedor, cliente.documento, total, metodoPago);
+            if(cliente){
+              const html = generarInformeVenta(fechaActual, vendedor, cliente.documento, total, metodoPago, productos)
+              await sendMail(cliente.email, subject, html)
+            }
+            setCompraFinalizada(true);
+            setProductos([]);
+            localStorage.removeItem("productos"); // Limpiar carrito
+            setMetodoPago(null);
+            setMontoEfectivo("");
+            setCliente("")
+
+            setTimeout(() => {
+                setCompraFinalizada(false);
+            }, 3000);
+        } else {
+            alert(respuesta.message)
+            console.error("Error al actualizar el inventario");
+            return;
+        }
     }
-  };
+
+    if(metodoPago === null){
+      alert("Elige el metodo de pago")
+    }
+};
 
   const cancelarFactura = () => {
     if (productos.length > 0) {
@@ -58,27 +124,33 @@ const Facturacion = () => {
     }
   };
 
+  const discardClient = () => {
+    setCliente("");
+  }
+
   const establecerCliente = async (doc) => {
     const result = await obtenerDoc(doc);
     if (result.existe){
-      setCliente(result.cliente.documento);
+      setCliente(result.cliente);
     }
   }
 
-  const agregarProducto = (codigo) => {
-    const productoEncontrado = productosDisponibles.find((p) => p.codigo === codigo);
+  const agregarProducto = async (codigo) => {
+    const productoEncontrado = await obtenerProducto(codigo);
+
     if (productoEncontrado) {
-      setProductos([...productos, { 
-        nombre: productoEncontrado.nombre, 
-        precio: productoEncontrado.precio, 
-        cantidad: 1
-      }]);
-      setMensajeError("");
+        setProductos([...productos, { 
+            idProducto: productoEncontrado.idProducto,
+            nombre: productoEncontrado.nombreProducto, 
+            precio: productoEncontrado.Precio, 
+            cantidad: 1 
+        }]);
+        setMensajeError("");
     } else {
-      setMensajeError("No hay productos disponibles con ese código");
-      setTimeout(() => setMensajeError(""), 3000);
+        setMensajeError("No hay productos disponibles con ese código");
+        setTimeout(() => setMensajeError(""), 3000);
     }
-  };
+};
 
   const eliminarProducto = (index) => {
     setProductos(productos.filter((_, i) => i !== index));
@@ -135,7 +207,18 @@ const Facturacion = () => {
             setMontoEfectivo={setMontoEfectivo}
           />
           <div className="documento-section">
-            <DocumentoCliente agregarCliente={establecerCliente}/>
+            {cliente ?
+            <div className="documento-cliente">
+              <h2>Info del cliente</h2>
+              <p>Documento: {cliente.documento}</p>
+              <p>Nombre: {cliente.nombre}</p>
+              <p>Email: {cliente.email}</p>
+              <p>Teléfono: {cliente.telefono}</p>
+              <button onClick={discardClient}>X</button>
+            </div>
+            :
+            <DocumentoCliente agregarCliente={establecerCliente}/> 
+            }
           </div>
         </div>
       </div>

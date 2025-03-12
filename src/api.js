@@ -141,3 +141,32 @@ export async function obtenerDoc(documento){
     const data = await response.json();
     return data;
 }
+
+// Obtener producto
+export async function obtenerProducto(codigo) {
+    const response = await fetch(`${API_URL}/producto/${codigo}`);
+
+    if (!response.ok) {
+        return null;
+    }
+    return response.json();
+}
+
+// actualizar inventario
+export async function actualizarInventario(productos) {
+    const response = await fetch(`${API_URL}/actualizar-inventario`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productos }),
+    });
+    return response.json();
+}
+
+export async function sendMail(to, subject, html){
+    const response = await fetch(`${API_URL}/enviar-mail`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({to, subject, html})
+    })
+    return response.json()
+}

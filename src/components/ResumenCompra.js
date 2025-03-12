@@ -16,7 +16,7 @@ export const ResumenCompra = ({ productos, metodoPago, setMetodoPago, montoEfect
       setTimeout(() => {
         const exito = Math.random() < 0.5; // 50% de probabilidad de éxito
         setMensajePago(exito ? "Transacción realizada con éxito." : "No se leyó bien la tarjeta, intente nuevamente.");
-      }, 2000);
+      }, 500);
     }
   };
 

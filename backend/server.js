@@ -2,11 +2,30 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const {Pool} = require('pg');
+const { Resend } = require('resend');
+
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+const resend = new Resend('re_BFmkL5jV_GSqNUAUuBy5hABqWWquUpryH')
+
+app.post('/enviar-mail', async (req, res) =>{
+    try {
+        const { to, subject, html } = req.body;
+        const response = await resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to,
+            subject,
+            html
+        });
+        res.json(response);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -238,17 +257,86 @@ app.get("/ventas", async(req, res) => {
 app.get("/buscarcliente/:documento", async(req, res) => {
     try{
         const {documento} = req.params;
-        const resultado = await pool.query("SELECT documento FROM clientes WHERE documento = $1", [documento]);
+        const resultado = await pool.query("SELECT * FROM clientes WHERE documento = $1", [documento]);
         if (resultado.rows.length > 0) {
+            console.log(resultado.rows[0])
             res.json({ existe: true, cliente: resultado.rows[0] });
         } else {
-            res.json({ existe: false, mensaje: "Venta no encontrada" });
+            res.json({ existe: false, mensaje: "Cliente no encontrado" });
         }
     }catch(e){
-        console.error("Error al buscar la venta:", error);
+        console.error("Error al buscar el cliente:", error);
         res.status(500).json({ error: "Error en el servidor" });
     }
 })
+
+
+// buscar producto
+app.get("/producto/:codigo", async (req, res) => {
+    const { codigo } = req.params;
+
+    try {
+        const result = await pool.query(`SELECT * FROM "inventario" WHERE "idProducto" = $1`, [codigo]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "Producto no encontrado" });
+        }
+
+        res.json(result.rows[0]); // Retorna el producto si existe
+    } catch (error) {
+        res.status(500).json({ message: "Error en el servidor", error });
+    }
+});
+
+// actualizar inventario
+app.put("/actualizar-inventario", async (req, res) => {
+    const { productos } = req.body;
+
+    try {
+        await pool.query("BEGIN"); // Iniciar transacción
+
+        for (const producto of productos) {
+            const { codigo, cantidad, nombre } = producto;
+            
+            // Verificar el stock actual
+            const stockResult = await pool.query(
+                `SELECT "Cantidad" FROM "inventario" WHERE "idProducto" = $1`,
+                [codigo]
+            );
+
+            if (stockResult.rows.length === 0) {
+                await pool.query("ROLLBACK");
+                return res.status(404).json({ success: false, message: `Producto ${nombre} no encontrado` });
+            }
+
+            const stockDisponible = stockResult.rows[0].Cantidad;
+            console.log(stockDisponible)
+            console.log(cantidad)
+
+            if (stockDisponible < cantidad) {
+                await pool.query("ROLLBACK");
+                return res.status(400).json({ 
+                    success: false, 
+                    message: `Stock insuficiente para el producto ${codigo} - ${nombre}. Disponible: ${stockDisponible}, Requerido: ${cantidad}` 
+                });
+            }
+
+            // Restar la cantidad del stock
+            await pool.query(
+                `UPDATE "inventario" SET "Cantidad" = "Cantidad" - $1 WHERE "idProducto" = $2`,
+                [cantidad, codigo]
+            );
+        }
+
+        await pool.query("COMMIT"); // Confirmar cambios en la BD
+        res.json({ success: true, message: "Inventario actualizado correctamente" });
+
+    } catch (error) {
+        await pool.query("ROLLBACK");
+        res.status(500).json({ success: false, message: "Error al actualizar el inventario", error });
+    }
+});
+
 
 
 pool.connect()
