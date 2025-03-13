@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const {Pool} = require('pg');
-const { Resend } = require('resend');
+
+const nodemailer = require("nodemailer");
 
 
 const app = express();
@@ -10,8 +11,41 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const resend = new Resend('re_7m6rBT6w_8VW6kapb9txjE9i36wsFWzz1')
 
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "jpovallesceron@gmail.com", // Tu correo de Gmail
+      pass: "obmh iuvd ihkc lsnu", // Usa la contraseña de aplicación
+    },
+});
+
+app.post('/enviar-mail', async (req, res) =>{
+    try {
+        const { to, subject, html } = req.body;
+        // Configurar el correo
+        const mailOptions = {
+            from: "jpovallesceron@gmail.com",
+            to: to,
+            subject: subject,
+            html: html,
+        };
+        
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Error al enviar el correo:", error);
+            } else {
+                console.log("Correo enviado con éxito:", info.response);
+            }
+        });
+        res.json(response);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
+
+/*
 app.post('/enviar-mail', async (req, res) =>{
     try {
         const { to, subject, html } = req.body;
@@ -26,6 +60,7 @@ app.post('/enviar-mail', async (req, res) =>{
         res.status(500).json({ error: error.message });
     }
 })
+*/
 
 const pool = new Pool({
     user: process.env.DB_USER,
