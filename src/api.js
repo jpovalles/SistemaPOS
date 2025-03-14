@@ -1,4 +1,4 @@
-const API_URL = "https://sistema-pos-phi.vercel.app/" || "https://sistema-pos-jpovalles-projects.vercel.app/" || "https://sistema-pos-git-main-jpovalles-projects.vercel.app/";
+const API_URL = "http://localhost:5000";
 
 
 // CRUD de clientes
