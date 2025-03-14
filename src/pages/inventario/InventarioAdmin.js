@@ -9,7 +9,6 @@ const InventarioAdmin = () => {
   const [inventario, setInventario] = useState([]);
   const [searchState, setSearchState] = useState(false);
   const [newItem, setNewItem] = useState({ nombreProducto: '',  Precio: '', Cantidad: '' });
-  const [mensaje, setMensaje] = useState('')
   const [editItem, setEditItem] = useState(null)
   const [productoEdit, setProductoEdit] = useState([])
 
@@ -40,8 +39,8 @@ const InventarioAdmin = () => {
           setInventario([...inventario, nuevoProducto]);
           setInvenActual([...inventario, nuevoProducto]);
           setNewItem({nombreProducto: '',  Precio: '', Cantidad: '' });
-          setMensaje("Se registró correctamente el producto");
-          setTimeout(() => setMensaje(""), 4000);
+          
+          setTimeout( 4000);
       };
 
   useEffect(() => {
