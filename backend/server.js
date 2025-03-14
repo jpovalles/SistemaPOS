@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "jpovallesceron@gmail.com", // Tu correo de Gmail
-      pass: "obmh iuvd ihkc lsnu", // Usa la contraseña de aplicación
+      pass: process.env.GMAIL_PASS, // Usa la contraseña de aplicación
     },
 });
 
@@ -46,22 +46,6 @@ app.post('/enviar-mail', async (req, res) =>{
 })
 
 /*
-app.post('/enviar-mail', async (req, res) =>{
-    try {
-        const { to, subject, html } = req.body;
-        const response = await resend.emails.send({
-            from: 'noreply@onresend.com',
-            to,
-            subject,
-            html
-        });
-        res.json(response);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-})
-*/
-
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -69,6 +53,12 @@ const pool = new Pool({
     password: process.env.DB_PASS,
     port: process.env.DB_PORT
 });
+*/
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {rejectUnauthorized: false}
+})
 
 //Agregar cliente
 app.post("/clientes", async (req, res) => {
