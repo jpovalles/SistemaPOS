@@ -21,6 +21,9 @@ const Facturacion = () => {
   const [metodoPago, setMetodoPago] = useState(null);
   const [montoEfectivo, setMontoEfectivo] = useState("");
 
+  const [mensajeDoc, setMensajeDoc] = useState(""); 
+  const [tipoMensaje, setTipoMensaje] = useState("");
+
 
   const fechaActual = new Date().toISOString().split("T")[0];
   
@@ -137,11 +140,22 @@ const Facturacion = () => {
 
     if (result.existe) {
       setCliente(result.cliente);
+      setMensajeDoc("Cliente encontrado.");
+      setTipoMensaje("encontrado");
+      
     } else {
-      setCliente(""); 
+      setCliente("");
+      setMensajeDoc("Cliente no encontrado.");
+      setTipoMensaje("noEncontrado"); 
     }
+    console.log(mensajeDoc)
+    console.log(tipoMensaje)
 
-    setTimeout(1000);
+
+    setTimeout(() => {
+      setMensajeDoc("");
+      setTipoMensaje("");
+    },1000);
   };
 
 
