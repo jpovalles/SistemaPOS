@@ -43,6 +43,7 @@ const InventarioAdmin = () => {
           setNewItem({nombreProducto: '',  Precio: '', Cantidad: '' });
 
           setMensaje("Se registró correctamente el producto");
+          console.log(mensaje)
           setTimeout(() => setMensaje(""), 4000);
         
       };
