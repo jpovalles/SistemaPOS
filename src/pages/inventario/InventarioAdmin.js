@@ -12,6 +12,8 @@ const InventarioAdmin = () => {
   const [editItem, setEditItem] = useState(null)
   const [productoEdit, setProductoEdit] = useState([])
 
+  const [mensaje, setMensaje] = useState('')
+
   const handleSearch = () => {
     const filtrados = inventario.filter((producto) => {
       if (!isNaN(busqueda) && busqueda.trim() !== "") {
@@ -39,8 +41,10 @@ const InventarioAdmin = () => {
           setInventario([...inventario, nuevoProducto]);
           setInvenActual([...inventario, nuevoProducto]);
           setNewItem({nombreProducto: '',  Precio: '', Cantidad: '' });
-          
-          setTimeout( 4000);
+
+          setMensaje("Se registró correctamente el producto");
+          setTimeout(() => setMensaje(""), 4000);
+        
       };
 
   useEffect(() => {
