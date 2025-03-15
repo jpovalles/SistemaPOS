@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000";
+const API_URL = "https://sistemaposbackend-production.up.railway.app";
 
 
 // CRUD de clientes
@@ -6,7 +6,7 @@ export async function agregarClientes(documento, nombre, email, telefono){
     const response = await fetch(`${API_URL}/clientes`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({documento, nombre, email, telefono}),
+        body: JSON.stringify({documento, nombre, email, telefono}), 
     });
     return response.json(); 
 }
