@@ -1,7 +1,7 @@
 # **SistemaPOS**
 ## Despliegue
-* sistemapos-production.up.railway.app
-* sistema-pos-phi.vercel.app
+* [Sistema POS (railway)](sistemapos-production.up.railway.app)
+* [Sistema POS (Vercel)](sistema-pos-phi.vercel.app)
 
 
 Este repositorio contiene el desarrollo de un **sistema POS (Point of Sale)** diseñado para registrar y gestionar ventas de manera eficiente, almacenar la información en una base de datos y generar reportes.
