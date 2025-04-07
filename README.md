@@ -1,8 +1,4 @@
 # **SistemaPOS**
-## Despliegue
-* [Sistema POS (railway)](https://sistemapos-production.up.railway.app)
-* [Sistema POS (Vercel)](https://sistema-pos-phi.vercel.app)
-
 
 Este repositorio contiene el desarrollo de un **sistema POS (Point of Sale)** diseñado para registrar y gestionar ventas de manera eficiente, almacenar la información en una base de datos y generar reportes.
 
@@ -46,3 +42,7 @@ El sistema cuenta con las siguientes funcionalidades, desarrolladas en base a la
    ```bash
    git clone https://github.com/jpovalles/SistemaPOS.git
    ```
+
+## Despliegue
+* [Sistema POS (railway)](https://sistemapos-production.up.railway.app)
+* [Sistema POS (Vercel)](https://sistema-pos-phi.vercel.app)
