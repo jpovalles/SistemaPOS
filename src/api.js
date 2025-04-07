@@ -1,4 +1,4 @@
-const API_URL = "https://sistema-pos-phi.vercel.app/" || "https://sistema-pos-jpovalles-projects.vercel.app/" || "https://sistema-pos-git-main-jpovalles-projects.vercel.app/";
+const API_URL = "https://sistemaposbackend-production.up.railway.app";
 
 
 // CRUD de clientes
@@ -6,7 +6,7 @@ export async function agregarClientes(documento, nombre, email, telefono){
     const response = await fetch(`${API_URL}/clientes`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({documento, nombre, email, telefono}),
+        body: JSON.stringify({documento, nombre, email, telefono}), 
     });
     return response.json(); 
 }
