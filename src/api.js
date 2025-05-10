@@ -1,4 +1,6 @@
-const API_URL = "https://sistemaposbackend-production.up.railway.app";
+// const API_URL = "https://sistemaposbackend-production.up.railway.app";
+const API_URL = "https://sistemapos-backend.onrender.com";
+
 
 
 // CRUD de clientes
